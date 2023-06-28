@@ -1,0 +1,27 @@
+.NavBarButtons {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+}
+
+.koszyk, .lista, .konto {
+    width: 33%;
+    height: 75%;
+    aspect-ratio: 1/1;
+
+    border-radius: 1rem;
+    
+    transition: background-color 0.2s ease;
+}
+
+.koszyk:hover, .lista:hover, .konto:hover {
+    background-color: var(--secondary-gray);
+    border-radius: 1rem;
+    cursor: pointer;
+
+    transition: background-color .2s ease;
+}
