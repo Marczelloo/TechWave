@@ -7,6 +7,7 @@
     display: flex;
     align-items: center;
 }
+
 .SearchBar {
     width: 90%;
     height: 40%;
@@ -51,6 +52,10 @@
     transition: background-color .2s ease;
 }
 
+.SearchBar > img {
+    transition: filter .2s ease;
+}
+
 .SearchIcon {
     width:70%;
     aspect-ratio: 4/3;
@@ -59,7 +64,21 @@
 
 .SearchBtn:hover {
     background-color: var(--secondary-gray);
+    /*box-shadow: 0px 0px 15px rgba(0, 0, 0, 1);
 
-    transition: background-color .2s ease;
+    */
+    transition: box-shadow, background-color .2s ease;
 }
 
+.SearchBtn:hover > img {
+    filter: invert(100%);
+
+    transition: filter .2s ease;
+}
+
+.SearchBar:has(.SearchBarInput:focus){
+    /* box-shadow: 0px 0px 15px rgba(0, 0, 0, 1); */
+    border-color: var(--secondary-gray);
+
+    transition: border-color .2s ease;
+}
