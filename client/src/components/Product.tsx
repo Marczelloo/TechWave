@@ -1,10 +1,13 @@
-import React from 'react'
+import Navbar from "./Navbar";
+
 
 type Props = {}
 
 function Product({}: Props) {
   return (
-    <div>Product</div>
+    <div className="wrapper">
+        <Navbar/> 
+    </div>
   )
 }
 

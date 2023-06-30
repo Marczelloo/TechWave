@@ -2,6 +2,8 @@
     position: sticky;
     top:0;
 
+    z-index: 10;
+
     width: 100%;
 
     display: flex;
@@ -42,6 +44,8 @@
     width:25%;
     display: flex;
     align-items: center;
+
+    text-decoration: none;
 }
 
 .ikona > img {
@@ -52,8 +56,12 @@
 }
 
 .ikona > h1 {
+    all: unset;
+    
     color: var(--subtleBG-white);
+
     text-transform: uppercase;
+
     font-weight: bold;
     font-size: 2rem;
     letter-spacing: 2px;

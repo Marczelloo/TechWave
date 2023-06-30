@@ -8,6 +8,8 @@
 body {
   background-color: var(--primary-black);
   font-family: 'Poppins', sans-serif;
+
+  overflow-x: hidden;
 }
 
 #root {
