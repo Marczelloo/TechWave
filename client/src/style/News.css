@@ -20,7 +20,6 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    gap: 20px;
 
     overflow: hidden;
 }
@@ -58,13 +57,22 @@
     align-items: center;
 
     cursor: pointer;
+
+    transition: opacity 0.2s ease;
+
+    z-index: 1;
 }
+
+.left-button:hover, .right-button:hover {
+    opacity: 1;
+
+    transition: opacity .2s ease;
+} 
 
 .left-button {
     left: 0;
     top: calc(50% - 2rem);
 
-    display: none;
 }
 
 .right-button {

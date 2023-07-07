@@ -5,18 +5,22 @@ import { Link } from 'react-router-dom';
 type Props = {
     id?: number, 
     header: string,
-    desc: string
+    desc: string,
+    newsPage: number,
 }
 
-function NewsCard({id, header, desc}: Props) {
+function NewsCard({id, header, desc, newsPage}: Props) {
+    
   return (
-    <Link to="./News" className='newscard-container'>
+    <div className='newscard-wrapper' style={{ transform: `translateX(${ -(newsPage - 1) * 100}%)`}}>
+        <Link to="./News" className='newscard-container' >
         <div className='image-container'>
             <img src={img} alt="news-img"/>
         </div>
         <h1> {header} </h1>
         <p> {desc} </p>
-    </Link>
+        </Link>
+    </div>
   )
 }
 
