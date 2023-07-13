@@ -8,10 +8,12 @@ type Props = {
     id?: number,
     name: string,
     price: number,
+    image: string,
     sale?: boolean,
+    new_price?: number,
 }
 
-function ProductCard({id, name, price, sale}: Props) {
+function ProductCard({id, name, image, price, sale, new_price}: Props) {
 
     const handleAddToCart = (event: any) => {
         event.preventDefault();
@@ -24,8 +26,8 @@ function ProductCard({id, name, price, sale}: Props) {
     <Link to='./Product' className='ProductCard'>
        
         <h1> {name} </h1>
-        <img src={img} alt='product-main-image'></img>
-        { sale == true ? <p> <span className="discount"> {price} zl </span> &nbsp; {price} zl </p> :  <p> {price} zł </p>}
+        <img src={image} alt='product-main-image'></img>
+        { sale == true ? <p> <span className="discount"> {price} zl </span> &nbsp; {new_price} zl </p> :  <p> {price} zł </p>}
         <div className='BtnContainer'>
             <button onClick={handleAddToCart} className='AddToListBtn'>
                 <img src={addToList} alt="dodaj do list"></img>

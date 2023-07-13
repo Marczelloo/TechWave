@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 
     const productIds = result.map(item => item.id_Product);
     const productPromises = productIds.map(productId => {
-      const query = `SELECT id, name, image_count, short_spec from products where id = ${productId}`;
+      const query = `SELECT id, name, price, image_count, short_spec from products where id = ${productId}`;
       return executeQuery(query);
     });
 
@@ -27,6 +27,7 @@ router.get('/', async (req, res) => {
         id: data[0].id,
         name: data[0].name,
         short_spec: data[0].short_spec,
+        price: data[0].price,
         images: images,
       };
     });

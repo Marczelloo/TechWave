@@ -4,6 +4,27 @@ import { useState, useEffect } from 'react';
 
 function HotDeals() {
   const [timeRemaining, setTimeRemaining] = useState<String>('');
+  const [hotdeals, setHotdeals] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/hotdeals');
+        if(!response.ok) {
+          throw new Error('Request failes');
+        }
+
+        const data = await response.json();
+        setHotdeals(data.product_list);
+      }
+      catch(error)
+      {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     // Function to calculate time remaining until midnight
@@ -36,19 +57,25 @@ function HotDeals() {
     };
   }, []);
 
-
   return (
     <div className='hotdeals-wrapper'>
       <h1> Hot Deals </h1>
       <h4> New Hot Deals In: {timeRemaining} </h4>
       <div className="hotdeals-container">
-        <ProductCard name='Samsung Galaxy S21 FE 128/8GB 5G fjabshddasds' price={2599.99} sale={true} />
-        <ProductCard name='default-name' price={0} sale={true} />
-        <ProductCard name='default-name' price={0} sale={true} />
-        <ProductCard name='default-name' price={0} sale={true} />
-        <ProductCard name='default-name' price={0} sale={true} />
-        <ProductCard name='default-name' price={0} sale={true} />
-        <ProductCard name='default-name' price={0} sale={true} />
+        { hotdeals ? (
+            hotdeals.map((hotdeal: { id: number, name: string; price: number; sale_price: number, short_spec: string; images: string[]; }) => (
+            <ProductCard
+              key={hotdeal.id}
+              name={hotdeal.name}
+              price={hotdeal.price}
+              new_price={hotdeal.sale_price}
+              image={hotdeal.images[0]}
+              sale={true}
+            />
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
     </div>
   )

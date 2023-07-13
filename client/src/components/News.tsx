@@ -57,9 +57,6 @@ function News() {
     setRightBtnVis(newsPage < newsCount);
   };
 
-  console.log('News Page: ' + newsPage);
-  console.log('Auto slide time: ' + autoSlideTime);
-
   return (
     <div className='news-wrapper'>
       <h1>News</h1>
