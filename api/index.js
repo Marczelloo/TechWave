@@ -17,10 +17,14 @@ app.use(cors());
 const product = require('./routes/get_Product.js');
 const recommended = require('./routes/get_Recommended.js');
 const hotdeals = require('./routes/get_HotDeals.js');
+const news_card = require('./routes/get_NewsCards.js');
+const news = require('./routes/get_News.js');
 
 app.use('/products', product);
 app.use('/recommended', recommended);
 app.use('/hotdeals', hotdeals);
+app.use('/newscards', news_card);
+app.use('/news', news);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

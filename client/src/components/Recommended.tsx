@@ -31,7 +31,7 @@ function Recommended() {
       <h1> We recommend</h1>
       <div className="recommended-container">
         {recommended ? (
-          recommended.map((recommendation: { id: Key | null | undefined; name: string; price: number; short_spec: string; images: string[]; }) => (
+          recommended.map((recommendation: { id: number; name: string; price: number; short_spec: string; images: string[]; }) => (
             <ProductCard
               key={recommendation.id}
               name={recommendation.name}

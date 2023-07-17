@@ -3,7 +3,7 @@ import NewsCard from './NewsCard';
 import { useState, useEffect } from 'react';
 
 function News() {
-  const newsCount = 9; // later replace this with the size of the array
+  const [newsCount, setNewsCount] = useState(0);
 
   const timeToAutoSlide = 5;
 
@@ -57,6 +57,31 @@ function News() {
     setRightBtnVis(newsPage < newsCount);
   };
 
+  const [news, setNews] = useState(null);
+
+ 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/newscards');
+        if(!response.ok) {
+          throw new Error('Request failes');
+        }
+
+        const data = await response.json();
+        setNews(data.news);
+        setNewsCount(news.length);
+      }
+      catch(error)
+      {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className='news-wrapper'>
       <h1>News</h1>
@@ -66,18 +91,20 @@ function News() {
             {'<'}
           </button>
         )}
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
-        <NewsCard header='News fhahgwugfyayufwgway uehgfiusefheuh' desc='Desc dada' newsPage={newsPage} />
+        { news ? (
+          news.map((news: { id: number, header: string, description: string, image: string}) => (
+            <NewsCard
+            key = {news.id}
+            header = {news.header}
+            desc = {news.description}
+            image = {news.image}
+            newsPage = {newsPage} 
+            />
+          ))
+        ) : (
+          <p> Loading...</p>
+        )}
+
         {rightBtnVis && (
           <button onClick={NextPage} className='right-button'>
             {'>'}

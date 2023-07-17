@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
       const images = [];
 
       for (let i = 0; i < imgCount; i++) {
-        images.push(`http://localhost:8080/images/${data[0].id}/image${i + 1}.png`);
+        images.push(`http://localhost:8080/images/products/${data[0].id}/image${i + 1}.png`);
       }
 
       return {
