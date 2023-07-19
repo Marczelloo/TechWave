@@ -3,7 +3,7 @@ const router = express.Router();
 const con = require('../db.js');
 
 router.get('/:id', (req, res) => {
-  const query = `SELECT id, name, price, sale_price, image_count, full_spec from products where id = ${req.params.id}`;
+  const query = `SELECT id, name, price, sale_price, image_count, description, specification from products where id = ${req.params.id}`;
 
   con.query(query, function (err, result) {
     if (err) {

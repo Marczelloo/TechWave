@@ -2,9 +2,18 @@ import '../style/HotDeals.css';
 import ProductCard from './ProductCard';
 import { useState, useEffect } from 'react';
 
+interface HotDeals {
+  id: number,
+  name: string, 
+  price: number,
+  sale_price: number, 
+  short_spec: string, 
+  images: string[];
+}
+
 function HotDeals() {
   const [timeRemaining, setTimeRemaining] = useState<String>('');
-  const [hotdeals, setHotdeals] = useState(null);
+  const [hotdeals, setHotdeals] = useState<HotDeals[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +83,7 @@ function HotDeals() {
             />
           ))
         ) : (
-          <p>Loading...</p>
+          <p className='loading'>Loading...</p>
         )}
       </div>
     </div>

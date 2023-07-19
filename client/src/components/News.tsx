@@ -2,17 +2,24 @@ import '../style/News.css';
 import NewsCard from './NewsCard';
 import { useState, useEffect } from 'react';
 
+interface News {
+  id: number,
+  header: string,
+  description: string,
+  image: string,
+}
+
 function News() {
-  const [newsCount, setNewsCount] = useState(0);
+  const [newsCount, setNewsCount] = useState<number>(0);
 
-  const timeToAutoSlide = 5;
+  const timeToAutoSlide:number = 5;
 
-  const [newsPage, setNewsPage] = useState(1);
+  const [newsPage, setNewsPage] = useState<number>(1);
 
-  const [leftBtnVis, setLeftBtnVis] = useState(false);
-  const [rightBtnVis, setRightBtnVis] = useState(true);
+  const [leftBtnVis, setLeftBtnVis] = useState<boolean>(false);
+  const [rightBtnVis, setRightBtnVis] = useState<boolean>(true);
 
-  const [autoSlideTime, setAutoSlideTime] = useState(0);
+  const [autoSlideTime, setAutoSlideTime] = useState<number>(0);
 
   useEffect(() => {
     const slideNews = () => {
@@ -57,7 +64,7 @@ function News() {
     setRightBtnVis(newsPage < newsCount);
   };
 
-  const [news, setNews] = useState(null);
+  const [news, setNews] = useState<News[] | null>(null);
 
  
 
@@ -71,7 +78,7 @@ function News() {
 
         const data = await response.json();
         setNews(data.news);
-        setNewsCount(news.length);
+        setNewsCount(data.length);
       }
       catch(error)
       {
@@ -94,7 +101,8 @@ function News() {
         { news ? (
           news.map((news: { id: number, header: string, description: string, image: string}) => (
             <NewsCard
-            key = {news.id}
+            key = {news.id + news.header}
+            id = {news.id}
             header = {news.header}
             desc = {news.description}
             image = {news.image}
@@ -102,7 +110,7 @@ function News() {
             />
           ))
         ) : (
-          <p> Loading...</p>
+          <p className='loading'> Loading...</p>
         )}
 
         {rightBtnVis && (

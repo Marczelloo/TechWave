@@ -2,17 +2,18 @@ import '../style/NewsCard.css';
 import { Link } from 'react-router-dom';
 
 type Props = { 
+    id: number,
     header: string,
     desc: string,
     newsPage: number,
     image: string,
 }
 
-function NewsCard({ header, desc, newsPage, image}: Props) {
+function NewsCard({id, header, desc, newsPage, image}: Props) {
     
   return (
     <div className='newscard-wrapper' style={{ transform: `translateX(${ -(newsPage - 1) * 100}%)`}}>
-        <Link to="./News" className='newscard-container' >
+        <Link to={{ pathname: './News', search: `id=${id}`}} className='newscard-container' >
         <div className='image-container'>
             <img src={image} alt="news-img"/>
         </div>

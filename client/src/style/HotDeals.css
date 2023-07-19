@@ -7,6 +7,13 @@
     border-bottom: 1px solid var(--secondary-gray);
 }
 
+.loading {
+    color: var(--subtleBG-white);
+  
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
 .hotdeals-wrapper > h1, .hotdeals-wrapper > h4{
     margin-left: 1rem;
 

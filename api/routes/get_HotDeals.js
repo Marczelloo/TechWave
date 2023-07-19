@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     }, {});
 
     const productPromises = productIds.map(productId => {
-      const query = `SELECT id, name, price, sale_price, image_count, short_spec from products where id = ${productId}`;
+      const query = `SELECT id, name, price, sale_price, image_count from products where id = ${productId}`;
 
       return executeQuery(query);
     });
@@ -32,7 +32,6 @@ router.get('/', async (req, res) => {
       return {
         id: data[0].id,
         name: data[0].name,
-        short_spec: data[0].short_spec,
         price: data[0].price,
         sale_price: data[0].sale_price,
         images: images,

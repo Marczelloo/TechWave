@@ -1,9 +1,16 @@
 import '../style/Recommended.css';
 import ProductCard from './ProductCard';
-import { useState, useEffect, Key } from 'react';
+import { useState, useEffect } from 'react';
+
+interface Recommended {
+  id: number,
+  name: string,
+  price: number,
+  images: Array<string>,
+}
 
 function Recommended() {
-  const [recommended, setRecommended] = useState(null);
+  const [recommended, setRecommended] = useState<Recommended[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +38,7 @@ function Recommended() {
       <h1> We recommend</h1>
       <div className="recommended-container">
         {recommended ? (
-          recommended.map((recommendation: { id: number; name: string; price: number; short_spec: string; images: string[]; }) => (
+          recommended.map((recommendation: { id: number; name: string; price: number; images: string[]; }) => (
             <ProductCard
               key={recommendation.id}
               name={recommendation.name}
@@ -40,7 +47,7 @@ function Recommended() {
             />
           ))
         ) : (
-          <p>Loading...</p>
+          <p className='loading'>Loading...</p>
         )}
       </div>
     </div>
