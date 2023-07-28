@@ -15,7 +15,7 @@ router.get('/:id', (req, res) => {
       const getImagePath = () => {
         let img_arr = [];
         for(i = 0; i < product.image_count; i++) {
-            img_arr.push(`http://localhost:8080/images/products/${data[0].id}/image${i + 1}.png`)
+            img_arr.push(`http://localhost:8080/images/products/${product.id}/image${i + 1}.png`)
         }
 
         return img_arr;
@@ -24,11 +24,13 @@ router.get('/:id', (req, res) => {
       const images = getImagePath();
 
       res.send({
+        id: product.id,
         name: product.name,
         price: product.price,
         sale_price: product.sale_price,
         images: images,
-        full_spec: product.full_spec,
+        description: product.description,
+        specification: product.specification,
       });
     }
   });

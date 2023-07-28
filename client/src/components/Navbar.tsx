@@ -3,8 +3,14 @@ import SearchBar from './SearchBar';
 import NavBarButtons from './NavBarButtons';
 import '../style/NavBar.css'
 import { Link } from "react-router-dom";
+import { useEffect } from 'react';
 
 export default function Navbar() {
+
+  useEffect(() => {
+    //window.scrollTo(0, 0);
+  })
+
   return (
     <nav className='navbar'>
         <Link to="../" className="ikona">

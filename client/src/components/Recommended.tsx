@@ -40,7 +40,8 @@ function Recommended() {
         {recommended ? (
           recommended.map((recommendation: { id: number; name: string; price: number; images: string[]; }) => (
             <ProductCard
-              key={recommendation.id}
+              key={'recommended - ' + recommendation.id + recommendation.name}
+              id={recommendation.id}
               name={recommendation.name}
               price={recommendation.price}
               image={recommendation.images[0]}

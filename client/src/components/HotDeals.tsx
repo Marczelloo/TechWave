@@ -74,7 +74,8 @@ function HotDeals() {
         { hotdeals ? (
             hotdeals.map((hotdeal: { id: number, name: string; price: number; sale_price: number, short_spec: string; images: string[]; }) => (
             <ProductCard
-              key={hotdeal.id}
+              key={'hotdeal - ' + hotdeal.id + hotdeal.name}
+              id={hotdeal.id}
               name={hotdeal.name}
               price={hotdeal.price}
               new_price={hotdeal.sale_price}

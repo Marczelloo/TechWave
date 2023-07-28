@@ -1,11 +1,10 @@
 import '../style/ProductCard.css';
-import img from '../assets/default_image.webp';
 import addToCart from '../assets/addCart.png';
 import addToList from '../assets/addList.png';
 import { Link } from 'react-router-dom';
 
 type Props = {
-    id?: number,
+    id: number,
     name: string,
     price: number,
     image: string,
@@ -23,8 +22,7 @@ function ProductCard({id, name, image, price, sale, new_price}: Props) {
     }
         //with context set id of product then in product page it will get tha data from it
     return (
-    <Link to='./Product' className='ProductCard'>
-       
+    <Link to={{ pathname: './Product', search: `product_id=${id}`}} className='ProductCard'>
         <h1> {name} </h1>
         <img src={image} alt='product-main-image'></img>
         { sale == true ? <p> <span className="discount"> {price} zl </span> &nbsp; {new_price} zl </p> :  <p> {price} zł </p>}
