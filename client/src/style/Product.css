@@ -1,9 +1,13 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .product-section {
     width: 100%;
     height: 800px;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .product-title {
@@ -31,7 +35,7 @@
 }
 
 .main-image > img {
-    height: 100%;
+    height: 95%;
     aspect-ratio: 4/3;
     object-fit: contain;
 }
@@ -59,6 +63,8 @@
     padding: 0.25rem;
 
     cursor: pointer;
+
+    transition: transform .3s ease;
 }
 
 .img-list-container > img {
@@ -66,8 +72,14 @@
     aspect-ratio: 4/3;
     object-fit: contain;
 
-    border: 1px solid var(--subtleBG-white);
+    border: 2px solid var(--subtleBG-white);
     border-radius: .5rem;
+
+    transition: border-color .2s ease;
+}
+
+.img-list-container > img:hover {
+    border-color: var(--action-aqua);
 }
 
 .prev-img, .next-img {
@@ -84,7 +96,7 @@
 
     opacity: 0.6;
 
-    background-color: var(--subtleBG-white);
+    background-color: var(--action-aqua);
     border-radius: 50%;
 
     font-size: 2rem;
@@ -111,6 +123,7 @@
     right: 0;
 }
 
+
 .spec-container {
     width: 25%;
     height: auto;
@@ -121,3 +134,83 @@
     height: auto;
 }
 
+.spec-container {
+    width: 25%;
+    height: 50%;
+
+    padding-left: 1.5rem;
+    text-align: left;
+    color: var(--subtleBG-white);
+
+    text-overflow: ellipsis;
+
+}
+
+.spec-container > h4 {
+    font-size: 1.35rem;
+    font-weight: 500;
+}
+
+.short-spec-text {
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 2.5rem;
+
+    height: 80%;
+    overflow: hidden;
+
+    margin-bottom: 1.5rem;
+}
+
+.short-spec-text > p > span {
+    opacity: 0.7;
+    font-weight: 600;
+}
+
+.see-full-spec {
+    all: unset;
+
+    display: block;
+    
+    width: 80%;
+    height: auto;
+
+    cursor: pointer;
+
+    margin-top: 1rem;
+    padding: .5rem;
+
+    border: 2px solid var(--action-aqua);
+    border-radius:  2.5rem;
+
+    text-align: center;
+
+    transition: background-color 0.2s ease;
+}
+
+.see-full-spec:hover {
+    background-color: var(--action-aqua);
+}
+
+
+.see-full-spec > p {
+    all: unset;
+
+    cursor: pointer;
+
+    color: var(--subtleBG-white);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.buy-container {
+    width: 25%;
+    height:fit-content;
+
+    padding: 1.5rem;
+
+    text-align: right;
+
+    border-radius: 1.5rem;
+    background-color: var(--secondary-gray);
+}

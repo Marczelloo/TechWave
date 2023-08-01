@@ -11,7 +11,7 @@ interface Product {
   images: string[],
   image_count: number,
   description: string,
-  specificity: string,
+  specification: string,
 }
 
 type Props = {}
@@ -23,6 +23,8 @@ function Product({}: Props) {
 
   const [product, setProduct] = useState<Product | null>(null);
 
+  const [specification, setSpecification] = useState<string[] | undefined>(undefined);
+
   const [imageList, setImageList] = useState<string[] | undefined>(undefined);
   const [mainImage, setMainImage] = useState<string | undefined>(undefined);
 
@@ -31,6 +33,9 @@ function Product({}: Props) {
 
   const [imagesCount, setImagesCount] = useState<number>(0);
   const [imagePage, setImagePage] = useState<number>(0);
+
+  const [onSale, setOnSale] = useState<boolean>(false);
+  const [youSave, setYouSave] = useState<number | null>(null);
 
   
   useEffect(() => {
@@ -76,8 +81,10 @@ function Product({}: Props) {
         setImageList(data.images);
         setMainImage(data.images[0]);
         setImageList(test);
-        setImagesCount(test.length);
-        
+        setImagesCount(test.length);   
+        setOnSale(data.on_sale === 1 ? true : false);  
+        setYouSave(data.price - data.sale_price);
+      
       }
       catch(error)
       {
@@ -86,6 +93,15 @@ function Product({}: Props) {
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    if (product && product.specification) {
+      const lines = product.specification.split('\r\n');
+      setSpecification(lines);
+    }
+  }, [product]);
+
+  console.log(product?.specification);
 
 
   return (
@@ -128,10 +144,35 @@ function Product({}: Props) {
               </div>
             </div>
             <div className='spec-container'>
+                  <h4> Specification: </h4>
+                  <div className='short-spec-text'>
+                  {
+                    specification?.map((line, index) =>{
+                      const [label, value] = line.split(':');
 
+                      return(
+                      <p key={'spec: ' + index}> 
+                        <span>{label}: </span>{line}
+                      </p>
+                      )
+                    })
+                  }
+                  </div>
+                  <a  href='#specification' className='see-full-spec'>
+                    <p> See full specification <span>&#10140;</span> </p>
+                  </a>
+                  
             </div>
             <div className='buy-container'>
-
+                  { onSale && <p className='you-save'>  youSave </p> }
+                  { onSale && <p className='sale-price'> product?.sale_price </p>}
+                  <p> { product?.price }</p>
+                  <div className='add-to-cart'>
+                    <p> Add to cart </p>
+                  </div>
+                  <div className='quantity'>
+                    <input type='number' name='quantity' value={1}/> 
+                  </div>
             </div>
           </div>
           <div className='info-section'>
@@ -139,7 +180,7 @@ function Product({}: Props) {
               <div className='description-contaienr'>
 
               </div>
-              <div className='specification-container'>
+              <div className='specification-container' id='specification'>
                 
               </div>
             </div>
