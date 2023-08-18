@@ -99,6 +99,7 @@ html {
     background-color: var(--action-aqua);
     border-radius: 50%;
 
+    color: var(--subtleBG-white);
     font-size: 2rem;
     font-weight: 600;
 
@@ -132,6 +133,8 @@ html {
 .buy-container {
     width: 25%;
     height: auto;
+
+    position: relative;
 }
 
 .spec-container {
@@ -208,9 +211,228 @@ html {
     height:fit-content;
 
     padding: 1.5rem;
+    padding-top: 1rem;
 
     text-align: right;
 
-    border-radius: 1.5rem;
+    border-radius: 1.25rem;
     background-color: var(--secondary-gray);
+
+    color: var(--subtleBG-white);
+}
+
+.price, .sale-price {
+    letter-spacing: 2px;
+    font-size: 1.75rem;
+    font-weight: 300;
+}
+
+.regular-price {
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    font-weight: 300;
+
+    color: var(--action-aqua);
+
+}
+
+.regular-price > span {
+    letter-spacing: 2px;
+
+    text-decoration: line-through;
+
+    color: var(--subtleBG-white);
+}
+
+.onSale {
+    display: flex;
+    flex-direction: column;
+
+    align-items: end;
+}
+
+.you-save {
+    width: fit-content;
+
+    padding: 0.5rem;
+    margin-bottom: .5rem;
+
+    border: 1px solid var(--action-aqua);
+    border-radius: 0.25rem;
+
+    text-align: right;
+    font-size: 0.8rem;
+    font-weight: 600;    
+}
+
+.buy-buttons-container {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 1rem;
+
+    margin-top: 1rem;
+}
+
+.quantity {
+    height: fit-content;
+    width: 20%;
+
+    background-color: none;
+
+    padding: 0.25rem;
+
+    border-radius: 0.55rem;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.quantity:focus {
+    border: none;
+    outline: none;
+}
+
+.quantity option {
+    border-radius: none;
+}
+.add-to-cart {
+    width: 70%;
+    height: auto;
+
+    padding: 0.5rem;
+
+    border-radius: 1rem;
+    border: 2px solid var(--action-aqua);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.add-to-cart:hover{
+    background-color: var(--action-aqua);
+}
+
+.add-to-cart > img {
+    height: 2.25rem;
+    width: auto;
+
+    aspect-ratio: 4/3;
+    object-fit: contain;
+
+    filter:invert(100%);
+}
+
+.add-to-cart > p {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.other {
+    width: 100%;
+    height: auto;
+
+    margin-top: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.other > div {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    border-top: 1px solid var(--subtleBG-white);
+
+    text-align: left;
+
+    transition: background-color .2s ease;
+}
+
+.other > div:nth-child(2), .other > div:nth-child(3){
+    cursor: pointer;
+}
+
+.other > div:hover {
+    background-color: var(--primary-black);
+}
+
+.other img {
+    height: 2rem;
+    width: auto;
+
+    margin-right: 0.5rem;
+
+    aspect-ratio: 4/3;
+    object-fit: contain;
+
+    filter:invert(100%);
+}
+
+.other p {
+    font-size: .8rem;
+    font-weight: 400;
+}
+
+.other span>p:last-child {
+    font-weight: 200;
+    color: var(--subtleBG-white);
+    opacity: 0.9;
+}
+
+.wishlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0.25rem;
+
+    aspect-ratio: 1/1;
+
+    width: auto;
+    height: auto;
+
+    position: absolute;
+    top: 5%;
+    left: 5%;
+
+    border: 2px solid var(--action-aqua);
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition: background-color .2s ease;
+}
+
+.wishlist:hover {
+    background-color: var(--action-aqua);
+}
+
+.wishlist > img {
+    height: 1.75rem;
+    width: auto;
+
+    aspect-ratio: 4/3;
+    object-fit: contain;
+
+    filter:invert(100%);
 }

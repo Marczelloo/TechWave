@@ -20,37 +20,37 @@ function Footer({}: Props) {
         <div className='upper-section'>
             <div className='column-section'>
                 <h4> Shipping </h4>
-                <Link to="./Underconstruction"> Shipping </Link>
-                <Link to="./Underconstruction"> Unstalments </Link>
-                <Link to="./Underconstruction"> Leasing </Link>
-                <Link to="./Underconstruction"> Insurances </Link>
-                <Link to="./Underconstruction"> Assembly  </Link>
-                <Link to="./Underconstruction"> Returns and Complaints </Link>
-                <Link to="./Underconstruction"> FAQ </Link>
+                <Link to="/Underconstruction"> Shipping </Link>
+                <Link to="/Underconstruction"> Unstalments </Link>
+                <Link to="/Underconstruction"> Leasing </Link>
+                <Link to="/Underconstruction"> Insurances </Link>
+                <Link to="/Underconstruction"> Assembly  </Link>
+                <Link to="/Underconstruction"> Returns and Complaints </Link>
+                <Link to="/Underconstruction"> FAQ </Link>
             </div>
             <div className='column-section'>
                 <h4> Offers and inspirations </h4>
-                <Link to="./Underconstruction"> Sale </Link>
-                <Link to="./Underconstruction"> HotDeals </Link>
-                <Link to="./Underconstruction"> Offers </Link>
-                <Link to="./Underconstruction"> Gift Cards </Link>
-                <Link to="./Underconstruction"> Guides  </Link>
+                <Link to="/Underconstruction"> Sale </Link>
+                <Link to="/Underconstruction"> HotDeals </Link>
+                <Link to="/Underconstruction"> Offers </Link>
+                <Link to="/Underconstruction"> Gift Cards </Link>
+                <Link to="/Underconstruction"> Guides  </Link>
             </div>
             <div className='column-section'>
                 <h4> Techwave </h4>
-                <Link to="./Underconstruction"> About Us</Link>
-                <Link to="./Underconstruction"> Rules and Regulations</Link>
-                <Link to="./Underconstruction"> Privacy Policy </Link>
-                <Link to="./Underconstruction"> Cookies Policy </Link>
-                <Link to="./Underconstruction"> Implemented projects</Link>
-                <Link to="./Underconstruction"> Press office </Link>
-                <Link to="./Underconstruction"> Public orders</Link>
-                <Link to="./Underconstruction"> Shopping for companies</Link>
-                <Link to="./Underconstruction"> Marketing cooperation</Link>
-                <Link to="./Underconstruction"> Forum </Link>
-                <Link to="./Underconstruction"> Career </Link>
-                <Link to="./Underconstruction"> Contact </Link>
-                <Link to="./Underconstruction"> Rules and Regulations</Link>
+                <Link to="/Underconstruction"> About Us</Link>
+                <Link to="/Underconstruction"> Rules and Regulations</Link>
+                <Link to="/Underconstruction"> Privacy Policy </Link>
+                <Link to="/Underconstruction"> Cookies Policy </Link>
+                <Link to="/Underconstruction"> Implemented projects</Link>
+                <Link to="/Underconstruction"> Press office </Link>
+                <Link to="/Underconstruction"> Public orders</Link>
+                <Link to="/Underconstruction"> Shopping for companies</Link>
+                <Link to="/Underconstruction"> Marketing cooperation</Link>
+                <Link to="/Underconstruction"> Forum </Link>
+                <Link to="/Underconstruction"> Career </Link>
+                <Link to="/Underconstruction"> Contact </Link>
+                <Link to="/Underconstruction"> Rules and Regulations</Link>
             </div>
             <div className='column-section'>
                 <h4> Contact </h4>
@@ -73,13 +73,13 @@ function Footer({}: Props) {
                 <div className='column-element'>
                     <div className='contact'>
                         <img src={whatsapp_img} alt='contact email address'></img>
-                        <Link to='./Underconstruction'> Whatsapp </Link>
+                        <Link to='/Underconstruction'> Whatsapp </Link>
                     </div>
                 </div>
                 <div className='column-element'>
                     <div className='contact'>
                         <img src={location_img} alt='contact email address'></img>
-                        <Link to='./Underconstruction'> Our Shops </Link>
+                        <Link to='/Underconstruction'> Our Shops </Link>
                     </div>
                 </div>
                 <div className='media-element'>

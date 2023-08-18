@@ -3,6 +3,15 @@ import Footer from "./Footer";
 import '../style/Product.css';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState  } from 'react';
+import cart from '../assets/cart.png';
+import avaible_icon from '../assets/avaible.png';
+import addToList from '../assets/addList.png';
+import shipping from '../assets/shipping.png';
+import installment from '../assets/installment.png';
+
+// #TODO:
+// - Seperate this element into smaller ones
+//
 
 interface Product {
   name: string,
@@ -37,6 +46,8 @@ function Product({}: Props) {
   const [onSale, setOnSale] = useState<boolean>(false);
   const [youSave, setYouSave] = useState<number | null>(null);
 
+  const [avaible, setAvaible] = useState<boolean>(false);
+
   
   useEffect(() => {
     updateVis();
@@ -70,20 +81,15 @@ function Product({}: Props) {
         }
 
         const data = await response.json();;
-        const test = ['http://localhost:8080/images/products/2/image1.png',
-        'http://localhost:8080/images/products/2/image2.png','http://localhost:8080/images/products/2/image1.png',
-        'http://localhost:8080/images/products/2/image2.png','http://localhost:8080/images/products/2/image1.png',
-        'http://localhost:8080/images/products/2/image2.png','http://localhost:8080/images/products/2/image1.png',
-        'http://localhost:8080/images/products/2/image2.png','http://localhost:8080/images/products/2/image1.png',
-        'http://localhost:8080/images/products/2/image2.png','http://localhost:8080/images/products/2/image1.png',
-        'http://localhost:8080/images/products/2/image2.png'];
         setProduct(data);
         setImageList(data.images);
         setMainImage(data.images[0]);
-        setImageList(test);
-        setImagesCount(test.length);   
+        setImagesCount(data.images.length);   
         setOnSale(data.on_sale === 1 ? true : false);  
+        setOnSale(true);
         setYouSave(data.price - data.sale_price);
+        setAvaible(data.avaible === 1 ? true : false);
+        setAvaible(true);
       
       }
       catch(error)
@@ -164,14 +170,34 @@ function Product({}: Props) {
                   
             </div>
             <div className='buy-container'>
-                  { onSale && <p className='you-save'>  youSave </p> }
-                  { onSale && <p className='sale-price'> product?.sale_price </p>}
-                  <p> { product?.price }</p>
-                  <div className='add-to-cart'>
-                    <p> Add to cart </p>
+                  <div className='wishlist'>
+                    <img src={addToList} alt='add to list icon'/>
                   </div>
-                  <div className='quantity'>
-                    <input type='number' name='quantity' value={1}/> 
+                  { onSale ? ( <div className='onSale'>
+                      <p className='you-save'> You're saving {youSave} $</p>
+                      <p className='sale-price'> {product?.sale_price} $ </p>
+                      <p className='regular-price'> Regular price: <span> {product?.price} $ </span></p>
+                    </div> )
+                    : ( <p className='price'> { product?.price } $</p> )
+                  } 
+                  <div className='buy-buttons-container'>
+                    <select className='quantity' name="quantity" id="quantity">
+                      <option value="1"> 1 </option>
+                      <option value="2"> 2 </option>
+                      <option value="3"> 3 </option>
+                      <option value="4"> 4 </option>
+                      <option value="5"> 5 </option>
+                      <option value="10"> 10 </option>
+                    </select>
+                    <div className='add-to-cart'>
+                      <img src={cart} alt='add-to-cart-image'/>
+                      <p> Add to cart </p>
+                    </div>
+                  </div>
+                  <div className='other'>
+                    <div> <img src={avaible_icon} alt="avaible icon"/> { avaible ? (<p> Product avaible and ready to be shipped </p>) : (<p> Product unavaible to buy</p>) } </div>
+                    <div> <img src={shipping}  alt='shipping icon'/>  <span> <p> Free shipping </p>  <p> Check details </p></span> </div>
+                    <div> <img src={installment} alt='installment icon'/> <span> <p> Installments from x $</p> <p> Calculate your installments </p></span> </div>
                   </div>
             </div>
           </div>
