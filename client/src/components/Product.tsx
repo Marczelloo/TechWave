@@ -8,6 +8,9 @@ import avaible_icon from '../assets/avaible.png';
 import addToList from '../assets/addList.png';
 import shipping from '../assets/shipping.png';
 import installment from '../assets/installment.png';
+import goBackArrow from '../assets/goBackArrow.png';
+import star from '../assets/star.png';
+import Reviev from "./Reviev";
 
 // #TODO:
 // - Seperate this element into smaller ones
@@ -47,6 +50,8 @@ function Product({}: Props) {
   const [youSave, setYouSave] = useState<number | null>(null);
 
   const [avaible, setAvaible] = useState<boolean>(false);
+
+  const [revievsUids, setRevievsUids] = useState<number[] | null>([1]);
 
   
   useEffect(() => {
@@ -105,11 +110,18 @@ function Product({}: Props) {
       const lines = product.specification.split('\r\n');
       setSpecification(lines);
     }
+
+    if(product && product.description) {
+      const desc = product.description.replace('\r\n', '<br>');
+
+      console.log(desc);
+    }
+
   }, [product]);
 
   console.log(product?.specification);
-
-
+  console.log(product?.description);
+  
   return (
     <div className="wrapper">
         <Navbar/>
@@ -164,7 +176,7 @@ function Product({}: Props) {
                     })
                   }
                   </div>
-                  <a  href='#specification' className='see-full-spec'>
+                  <a  href='#specification-linker' className='see-full-spec'>
                     <p> See full specification <span>&#10140;</span> </p>
                   </a>
                   
@@ -202,16 +214,110 @@ function Product({}: Props) {
             </div>
           </div>
           <div className='info-section'>
-          <div className='info-container'>
-              <div className='description-contaienr'>
-
+            <div className='info-menu-bar'>
+                  <a href="#top">
+                    <img src={goBackArrow} alt='back to top arrow'/>
+                  </a>
+                  <a href="#description-linker" className='info-menu-element'>
+                    <p> Description </p>
+                  </a>
+                  <a href="#specification-linker" className='info-menu-element'>
+                    <p> Specification </p>
+                  </a>
+                  <a href="#revievs-linker" className='info-menu-element'>
+                    <p> Reviews </p>
+                  </a>
+            </div>
+            <div className='info-container'>
+              <div className='description-container' id="description">
+                <div id='description-linker'></div>
+                <h2> Description </h2>
+                <p>
+                  { product?.description }
+                </p>
               </div>
               <div className='specification-container' id='specification'>
-                
+                <div id='specification-linker'></div>
+                <h2> Specification </h2>
+                <div className='specification-list'>
+                {
+                    specification?.map((line, index) =>{
+                      const [label, value] = line.split(':');
+
+                      return(
+                      <div className='spec-element' key={'spec: ' + index}> 
+                        <p className='spec-left'> {label} </p>
+                        <p className='spec-right'> {line} </p>
+                      </div>
+                      )
+                    })
+                  }
+                </div>
               </div>
             </div>
-            <div className='rating-container'>
+            <div className='rating-container' id='revievs'>
+              <div id='revievs-linker'></div>
+              <h2> Revievs </h2>
+                  <div className='reviev-give-container'>
+                    <div className='revievs-counts'>
+                      <div className='averge-revievs'>
+                        <p className='reviev-count'>
+                          { 5 } / 5 <img src={star} />
+                        </p>
+                        <div className='reviev-stars-vis'>
+                          <img src={star} key='star 1'/>
+                          <img src={star} key='star 2'/>
+                          <img src={star} key='star 2'/>
+                          <img src={star} key='star 2'/>
+                          <img src={star} key='star 2'/>
+                  
+                        </div>
+                        <p className='reviev-gave-count'> Revievs: {'55'} </p>
+                      </div>
+                      <div className='revievs-rate-list'>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 5 </p></p> <div className='rate-elem-spacer'></div> <p> { 15 } </p> </div>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 4 </p></p> <div className='rate-elem-spacer'></div> <p> { 9 } </p> </div>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 3 </p></p> <div className='rate-elem-spacer'></div> <p> { 5 } </p> </div>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 2 </p></p> <div className='rate-elem-spacer'></div> <p> { 2 } </p> </div>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 1 </p></p> <div className='rate-elem-spacer'></div> <p> { 0 } </p> </div>
+                      </div>
+                    </div>
+                    <div className='revievs-submit'>
+                      <textarea placeholder='Your reviev. . .' id='reviev-text'/>
+                      <div className='reviev-star'>
+                        <div className='reviev-radio-elem'>
+                          <input type="radio" id="star-1" name="star-reviev" value={5} />
+                          <label> 5 <img src={star} /></label>
+                        </div>
+                        <div className='reviev-radio-elem'>
+                          <input type="radio" id="star-1" name="star-reviev" value={4} />
+                          <label> 4 <img src={star} /></label>
+                        </div>
+                        <div className='reviev-radio-elem'>
+                          <input type="radio" id="star-1" name="star-reviev" value={3} />
+                          <label> 3 <img src={star} /></label>
+                        </div>
+                        <div className='reviev-radio-elem'>
+                          <input type="radio" id="star-1" name="star-reviev" value={2} />
+                          <label> 2 <img src={star} /></label>
+                        </div>
+                        <div className='reviev-radio-elem'>
+                          <input type="radio" id="star-1" name="star-reviev" value={1} />
+                          <label> 1 <img src={star} /></label>
+                        </div>
+                      </div>
+                      <button className='reviev-submit-btn'> Submit </button>
+                    </div>
+                  </div>
+                  <div className='customers-revievs-container'>
+                    {
 
+                    }
+                    <Reviev
+                      key={'reviev' + revievsUids[0]}
+                      uid={revievsUids[0]}
+                    />
+                  </div>
             </div>
           </div>
         </div> 
