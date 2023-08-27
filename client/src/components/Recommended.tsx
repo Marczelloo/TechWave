@@ -32,7 +32,6 @@ function Recommended() {
     fetchData();
   }, []);
 
-  console.log(recommended);
   return (
     <div className='recommended-wrapper'>
       <h1> We recommend</h1>

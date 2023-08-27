@@ -9,6 +9,8 @@
 }
 
 .koszyk, .lista, .konto {
+    text-decoration: none;
+    
     width: 33%;
     height: 75%;
     aspect-ratio: 1/1;

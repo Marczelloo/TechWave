@@ -54,6 +54,8 @@ function Product({}: Props) {
   const [revievsUids, setRevievsUids] = useState<number[] | null>([1]);
 
   
+
+  
   useEffect(() => {
     updateVis();
   }, [imagePage, imageList]);
@@ -313,6 +315,10 @@ function Product({}: Props) {
                     {
 
                     }
+                    <Reviev
+                      key={'reviev' + revievsUids[0]}
+                      uid={revievsUids[0]}
+                    />
                     <Reviev
                       key={'reviev' + revievsUids[0]}
                       uid={revievsUids[0]}

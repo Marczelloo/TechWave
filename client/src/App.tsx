@@ -4,6 +4,8 @@ import Home from './components/Home';
 import Product from './components/Product';
 import NewsPage from './components/NewsPage';
 import UnderConstruction from './components/UnderConstruction';
+import Login from './components/Login';
+import Register from './components/Register';
 import { createBrowserRouter, RouterProvider} from "react-router-dom"; 
 
 const Router = createBrowserRouter([
@@ -32,16 +34,16 @@ const Router = createBrowserRouter([
       element: <></>,
   },
   {
-      path: '/account',
+      path: '/Account',
       element: <></>,
   },
   {
       path: '/Login',
-      element: <></>,
+      element: <Login/>,
   },
   {
       path: '/Register',
-      element: <></>,
+      element: <Register/>,
   }
 ]);
 
