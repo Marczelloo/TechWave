@@ -20,6 +20,9 @@ const login = require('./routes/post_Login.js');
 const logout = require('./routes/post_Logout.js');
 const protected = require('./routes/get_Protected.js');
 const register = require('./routes/post_Register.js');
+const user = require('./routes/get_User.js');
+const reviews = require('./routes/get_Reviews.js');
+const post_review = require('./routes/post_Review.js');
 
 app.use('/products', product);
 app.use('/recommended', recommended);
@@ -30,6 +33,9 @@ app.use('/login', login);
 app.use('/logout', logout);
 app.use('/protected', protected);
 app.use('/register', register);
+app.use('/user', user);
+app.use('/reviews', reviews);
+app.use('/post_review', post_review)
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

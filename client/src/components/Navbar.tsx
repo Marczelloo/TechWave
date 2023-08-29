@@ -13,7 +13,7 @@ export default function Navbar() {
       left: 0,
       behavior: 'auto',
     })
-  })
+  }, [])
 
   return (
     <nav className='navbar'>

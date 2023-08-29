@@ -1,5 +1,5 @@
 import NavBtn from './NavBtn';
-import {Link} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 
 import '../style/NavBarButtons.css';
 
@@ -12,6 +12,47 @@ function NavBarButtons() {
     const H_account = 'Account';
     const H_cart = 'Cart';
     const H_list = 'Wishlist';
+
+    const navigate = useNavigate();
+
+    const handleAccount = async (event: any) => {
+        event.preventDefault();
+
+        const fetchData = async () => {
+            try
+            {
+              const response = await fetch(`http://localhost:8080/protected`,{
+                method: 'GET',
+                credentials: 'include',
+              });
+
+              if(!response.ok)
+              {
+                throw new Error('Request failed');
+              }
+      
+              const data = await response.json();;
+
+              console.log(data);
+
+              if(data.success === 1)
+              {
+                navigate('/dashboard');
+              }
+              else if(data.success === 0)
+              {
+                navigate('/login');
+              }            
+            }
+            catch(error)
+            {
+              console.error(error);
+            }
+          };
+          fetchData();
+
+    }
+
   return (
     <div className='NavBarButtons'>
         <Link to='./Cart' className='koszyk'>
@@ -20,9 +61,9 @@ function NavBarButtons() {
         <Link to='./Lists' className='lista'>
             <NavBtn icon={list} heading={H_list} />
         </Link>
-        <Link to='./Login' className='konto'>
+        <div onClick={handleAccount} className='konto'>
             <NavBtn icon={account} heading={H_account} />
-        </Link>
+        </div>
     </div>
   )
 }

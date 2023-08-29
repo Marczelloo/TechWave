@@ -9,7 +9,6 @@ router.use(cookieParser());
 
 const SECRET_KEY = '420269742';
 
-
 function generateAuthToken(userData, expiresIn) {
     return jwt.sign(userData, SECRET_KEY, { expiresIn });
 }
@@ -28,7 +27,7 @@ router.post('/', (req, res) => {
 
     let query;
     
-    if(emailPattern.test(req.params.login))
+    if(emailPattern.test(login))
     {
         query = `SELECT id, mail, password from users WHERE mail = '${login}'`;
     }
@@ -57,20 +56,15 @@ router.post('/', (req, res) => {
                 const q_result = result[0];
                 if(password === q_result.password)
                 {
-                    let userData;
-                    if(result.email === null || result.email === '')
-                    {
-                        userData = { userId: result.id, username: result.username  };
-                    }
-                    else
-                    {
-                        userData = { userId: result.id, username: result.email  };
-                    }
-                    
+                    const userData = { userId: q_result.id, username: q_result.username };
 
-                    const expiresIn = rememberMe === 'true' ? ms('30d') : ms('1h');                    
+                    const expiresIn = rememberMe === true ? ms('30d') : ms('1h');                    
                     const authToken = generateAuthToken(userData, expiresIn);
                     const refreshToken = generateRefreshToken();
+
+                    console.log(rememberMe);
+                    console.log(expiresIn);
+                    console.log(authToken);
 
                      // Send tokens as cookies
                     res.cookie('authToken', authToken, { httpOnly: true, maxAge: expiresIn });

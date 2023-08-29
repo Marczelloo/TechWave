@@ -10,7 +10,8 @@ import shipping from '../assets/shipping.png';
 import installment from '../assets/installment.png';
 import goBackArrow from '../assets/goBackArrow.png';
 import star from '../assets/star.png';
-import Reviev from "./Reviev";
+import Review from "./Review";
+import Popup from "./Popup";
 
 // #TODO:
 // - Seperate this element into smaller ones
@@ -24,6 +25,14 @@ interface Product {
   image_count: number,
   description: string,
   specification: string,
+}
+
+interface Reviews {
+  id_product: number, 
+  id_user: number, 
+  review_rate: number, 
+  review_text: string,
+  review_date: Date,
 }
 
 type Props = {}
@@ -51,10 +60,20 @@ function Product({}: Props) {
 
   const [avaible, setAvaible] = useState<boolean>(false);
 
-  const [revievsUids, setRevievsUids] = useState<number[] | null>([1]);
+  const [reviews, setReviews] = useState<Reviews[] | null>(null);  
+  const [reviewAvergeRate, setReviewAvergeRate] = useState<number | null>(null);
+  const [reviewRatesFor5, setReviewRatesFor5] = useState<number | null>(null);
+  const [reviewRatesFor4, setReviewRatesFor4] = useState<number | null>(null);
+  const [reviewRatesFor3, setReviewRatesFor3] = useState<number | null>(null);
+  const [reviewRatesFor2, setReviewRatesFor2] = useState<number | null>(null);
+  const [reviewRatesFor1, setReviewRatesFor1] = useState<number | null>(null);
 
   
+  const [reviewText, setReviewText] = useState<string | null>(null);
+  const [reviewRate, setReviewRate] = useState<number | null>(null);
 
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [popupInfo, setPopupInfo] = useState<string | null>(null);
   
   useEffect(() => {
     updateVis();
@@ -78,7 +97,7 @@ function Product({}: Props) {
   };
   
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataProduct = async () => {
       try
       {
         const response = await fetch(`http://localhost:8080/products/${id}`);
@@ -87,7 +106,7 @@ function Product({}: Props) {
           throw new Error('Request failed');
         }
 
-        const data = await response.json();;
+        const data = await response.json();
         setProduct(data);
         setImageList(data.images);
         setMainImage(data.images[0]);
@@ -104,29 +123,167 @@ function Product({}: Props) {
         console.error(error);
       }
     };
-    fetchData();
-  }, [id]);
+
+    const fetchDatareviews = async () => {
+      try
+      {
+        const response = await fetch(`http://localhost:8080/reviews/${id}`);
+        if(!response.ok)
+        {
+          throw new Error('Request failed');
+        }
+
+        const data = await response.json();
+        if(data.success === 0)
+        {
+          setReviews(null);
+        }
+        else if(data.success === 1)
+        {
+          setReviews(data.review);
+        }
+      }
+      catch(error)
+      {
+        console.error(error);
+      }
+    }
+
+    fetchDataProduct();
+    fetchDatareviews();
+  }, [id, showPopup]);
+
+  useEffect(() => {
+    const countReviewAvergeRate = () => {
+      let rateSum: number = 0;
+
+      reviews?.forEach(element => {
+        rateSum += element.review_rate;
+      });
+
+      const avergeRate = rateSum / reviews?.length;
+      
+      setReviewAvergeRate(avergeRate);
+    }
+
+    const counrReviewRates = () => {
+      const rateCounts = {};
+
+      reviews?.forEach(element => {
+        const rate = element.review_rate;
+        rateCounts[rate] = (rateCounts[rate] || 0) + 1;
+      })
+
+      setReviewRatesFor1(rateCounts[1])
+      setReviewRatesFor2(rateCounts[2])
+      setReviewRatesFor3(rateCounts[3])
+      setReviewRatesFor4(rateCounts[4])
+      setReviewRatesFor5(rateCounts[5])
+    }
+
+    counrReviewRates();
+    countReviewAvergeRate();
+  }, [reviews])
 
   useEffect(() => {
     if (product && product.specification) {
       const lines = product.specification.split('\r\n');
       setSpecification(lines);
     }
-
-    if(product && product.description) {
-      const desc = product.description.replace('\r\n', '<br>');
-
-      console.log(desc);
-    }
-
   }, [product]);
 
-  console.log(product?.specification);
-  console.log(product?.description);
+  const handleReviewTextChange = (event: any) => {
+    setReviewText(event.target.value);
+  }
   
+  const handleReviewRateChange = (event: any) => {
+    setReviewRate(event.target.value);
+  }
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+  
+    const getUserId = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/protected',{
+          method: 'GET',
+          credentials: 'include',
+        });
+  
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+  
+        const data = await response.json();
+  
+        return data.userId;
+      } 
+      catch (error) 
+      {
+        console.error(error);
+      }
+    }
+  
+    const userId = await getUserId();
+    const date = Date.now();
+
+    try
+    {
+      const response = await fetch('http://localhost:8080/post_review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id_product: id,
+          id_user: userId,
+          review_rate: reviewRate,
+          review_text: reviewText,
+          review_date: date,
+        })
+      });
+
+      if(!response.ok)
+      {
+        throw new Error('Request failed');
+      }
+
+      const data = await response.json();    
+
+      if(data.success === 1)
+      {
+        console.log('test');
+        setPopupInfo('Review successfully sent!');
+        setShowPopup(true);
+
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 4000)
+      }
+      else
+      {
+        console.log('test not');
+        setPopupInfo('Error, reviev not sent! Try again later!');
+        setShowPopup(true);
+
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 4000)
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+    
+}
+
   return (
     <div className="wrapper">
         <Navbar/>
+        <Popup 
+        visible={showPopup}
+        info={popupInfo} />
         <div className='product-wrapper'>
           <h1 className='product-title'> {product?.name} </h1>
           <div className='product-section'> 
@@ -143,6 +300,7 @@ function Product({}: Props) {
                 {
                   imageList?.map((img: string, index: number) =>{
                     return <div 
+                    key={"div" + img}
                     className="img-list-container" 
                     onClick={() => setMainImage(img)}
                     style={{ transform: `translateX(${ -(imagePage) * 100}%)`}}
@@ -168,7 +326,7 @@ function Product({}: Props) {
                   <div className='short-spec-text'>
                   {
                     specification?.map((line, index) =>{
-                      const [label, value] = line.split(':');
+                      const [label] = line.split(':');
 
                       return(
                       <p key={'spec: ' + index}> 
@@ -226,7 +384,7 @@ function Product({}: Props) {
                   <a href="#specification-linker" className='info-menu-element'>
                     <p> Specification </p>
                   </a>
-                  <a href="#revievs-linker" className='info-menu-element'>
+                  <a href="#reviews-linker" className='info-menu-element'>
                     <p> Reviews </p>
                   </a>
             </div>
@@ -244,7 +402,7 @@ function Product({}: Props) {
                 <div className='specification-list'>
                 {
                     specification?.map((line, index) =>{
-                      const [label, value] = line.split(':');
+                      const [label] = line.split(':');
 
                       return(
                       <div className='spec-element' key={'spec: ' + index}> 
@@ -257,72 +415,104 @@ function Product({}: Props) {
                 </div>
               </div>
             </div>
-            <div className='rating-container' id='revievs'>
-              <div id='revievs-linker'></div>
-              <h2> Revievs </h2>
-                  <div className='reviev-give-container'>
-                    <div className='revievs-counts'>
-                      <div className='averge-revievs'>
-                        <p className='reviev-count'>
-                          { 5 } / 5 <img src={star} />
+            <div className='rating-container' id='reviews'>
+              <div id='reviews-linker'></div>
+              <h2> reviews </h2>
+                  <div className='review-give-container'>
+                    <div className='reviews-counts'>
+                      <div className='averge-reviews'>
+                        <p className='review-count'>
+                          { reviewAvergeRate } / 5 <img src={star} />
                         </p>
-                        <div className='reviev-stars-vis'>
-                          <img src={star} key='star 1'/>
-                          <img src={star} key='star 2'/>
-                          <img src={star} key='star 2'/>
-                          <img src={star} key='star 2'/>
-                          <img src={star} key='star 2'/>
+                        <div className='review-stars-vis'>
+                          <img src={star} />
+                          <img src={star} />
+                          <img src={star} />
+                          <img src={star} />
+                          <img src={star} />
                   
                         </div>
-                        <p className='reviev-gave-count'> Revievs: {'55'} </p>
+                        <p className='review-gave-count'> reviews: {'55'} </p>
                       </div>
-                      <div className='revievs-rate-list'>
-                        <div className='rate-elem'> <p> <img src={star} /> <p> 5 </p></p> <div className='rate-elem-spacer'></div> <p> { 15 } </p> </div>
-                        <div className='rate-elem'> <p> <img src={star} /> <p> 4 </p></p> <div className='rate-elem-spacer'></div> <p> { 9 } </p> </div>
-                        <div className='rate-elem'> <p> <img src={star} /> <p> 3 </p></p> <div className='rate-elem-spacer'></div> <p> { 5 } </p> </div>
-                        <div className='rate-elem'> <p> <img src={star} /> <p> 2 </p></p> <div className='rate-elem-spacer'></div> <p> { 2 } </p> </div>
-                        <div className='rate-elem'> <p> <img src={star} /> <p> 1 </p></p> <div className='rate-elem-spacer'></div> <p> { 0 } </p> </div>
+                      <div className='reviews-rate-list'>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 5 </p></p> <div className='rate-elem-spacer'></div> <p> { reviewRatesFor5 ? reviewRatesFor5 : 0 } </p> </div>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 4 </p></p> <div className='rate-elem-spacer'></div> <p> { reviewRatesFor4 ? reviewRatesFor4 : 0 } </p> </div>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 3 </p></p> <div className='rate-elem-spacer'></div> <p> { reviewRatesFor3 ? reviewRatesFor3 : 0 } </p> </div>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 2 </p></p> <div className='rate-elem-spacer'></div> <p> { reviewRatesFor2 ? reviewRatesFor2 : 0 } </p> </div>
+                        <div className='rate-elem'> <p> <img src={star} /> <p> 1 </p></p> <div className='rate-elem-spacer'></div> <p> { reviewRatesFor1 ? reviewRatesFor1 : 0 } </p> </div>
                       </div>
                     </div>
-                    <div className='revievs-submit'>
-                      <textarea placeholder='Your reviev. . .' id='reviev-text'/>
-                      <div className='reviev-star'>
-                        <div className='reviev-radio-elem'>
-                          <input type="radio" id="star-1" name="star-reviev" value={5} />
+                    <form className='reviews-submit' onSubmit={handleSubmit}>
+                      <textarea 
+                      placeholder='Your review. . .' 
+                      id='review-text'
+                      name='review-text'
+                      onChange={handleReviewTextChange}
+                      />
+                      <div className='review-star'>
+                        <div className='review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review" 
+                          value={5} 
+                          onChange={handleReviewRateChange}/>
                           <label> 5 <img src={star} /></label>
                         </div>
-                        <div className='reviev-radio-elem'>
-                          <input type="radio" id="star-1" name="star-reviev" value={4} />
+                        <div className='review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review" 
+                          value={4}
+                          onChange={handleReviewRateChange} />
                           <label> 4 <img src={star} /></label>
                         </div>
-                        <div className='reviev-radio-elem'>
-                          <input type="radio" id="star-1" name="star-reviev" value={3} />
+                        <div className='review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review" 
+                          value={3}
+                          onChange={handleReviewRateChange} />
                           <label> 3 <img src={star} /></label>
                         </div>
-                        <div className='reviev-radio-elem'>
-                          <input type="radio" id="star-1" name="star-reviev" value={2} />
+                        <div className='review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review" 
+                          value={2}
+                          onChange={handleReviewRateChange} />
                           <label> 2 <img src={star} /></label>
                         </div>
-                        <div className='reviev-radio-elem'>
-                          <input type="radio" id="star-1" name="star-reviev" value={1} />
+                        <div className='review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review"
+                          value={1}
+                          onChange={handleReviewRateChange} />
                           <label> 1 <img src={star} /></label>
                         </div>
                       </div>
-                      <button className='reviev-submit-btn'> Submit </button>
-                    </div>
+                      <button className='review-submit-btn' type='submit' onClick={handleSubmit}> Submit </button>
+                    </form>
                   </div>
-                  <div className='customers-revievs-container'>
+                  <div className='customers-reviews-container'>
                     {
-
+                      reviews === null ? <p className='no-reviews'> No reviews found for this product <br/> 
+                      Be the first one to review this product! </p> :
+                      reviews.map(element => {
+                        return <Review 
+                        key = {"Review" +  element.id_user + element.review_date}
+                        uid = { element.id_user}
+                        reviewRate = { element.review_rate}
+                        reviewText = { element.review_text}
+                        reviewDate = {element.review_date}
+                        />
+                      })
                     }
-                    <Reviev
-                      key={'reviev' + revievsUids[0]}
-                      uid={revievsUids[0]}
-                    />
-                    <Reviev
-                      key={'reviev' + revievsUids[0]}
-                      uid={revievsUids[0]}
-                    />
                   </div>
             </div>
           </div>
