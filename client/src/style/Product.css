@@ -227,6 +227,10 @@ html {
     font-weight: 300;
 }
 
+.price {
+    margin-bottom: 2rem;
+}
+
 .regular-price {
     letter-spacing: 1px;
     font-size: 0.8rem;

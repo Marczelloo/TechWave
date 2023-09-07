@@ -1,0 +1,27 @@
+.dashboard-cart-order {
+    list-style-type: disc;
+    
+    width: 100%;
+    height: auto;
+
+    padding: .5rem 1rem;
+
+    font-size: 1.1rem;
+    font-weight: 200;
+    text-transform: uppercase;
+
+    color: var(--subtleBG-white);
+
+    opacity: .9;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard-cart-order > p {
+    width: 70%;
+
+    overflow: hidden;
+
+    text-align: left;
+}

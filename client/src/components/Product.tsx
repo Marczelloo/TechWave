@@ -112,7 +112,6 @@ function Product({}: Props) {
         setMainImage(data.images[0]);
         setImagesCount(data.images.length);   
         setOnSale(data.on_sale === 1 ? true : false);  
-        setOnSale(true);
         setYouSave(data.price - data.sale_price);
         setAvaible(data.avaible === 1 ? true : false);
         setAvaible(true);

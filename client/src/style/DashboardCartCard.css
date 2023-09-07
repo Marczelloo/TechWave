@@ -1,0 +1,113 @@
+.dashboard-cart-card-container {
+    width: 90%;
+    height: auto;
+
+    padding: 1rem;
+
+    background-color: var(--secondary-gray);
+    border-radius: 1rem;
+
+    display: flex;
+
+    color: var(--subtleBG-white);
+}
+
+.dashboard-cart-card-container > img {
+    height: auto;
+    width: 25%;
+    
+    aspect-ratio: 4/3;
+    object-fit: contain;
+}
+
+.cart-card-info {
+    width: 30%;
+    text-align: left;
+    font-weight: 300;
+
+}
+
+.cart-card-info > p:first-child{
+    font-size: 1.35rem;
+    font-weight: 300;
+
+    text-transform: uppercase;
+}
+
+.cart-card-price { 
+    width: 15%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.25rem;
+    font-weight: 400;
+
+}
+
+.cart-card-buttons {
+    width: 30%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .75rem;
+}
+
+.cart-card-buttons > button {
+    all: unset;
+
+    padding: .5rem;
+
+    height: 1.25rem;
+    width: 1.25rem;
+
+    border-radius: 50%;
+    border: 1px solid var(--subtleBG-white);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: all .2s ease;
+}
+
+.cart-card-buttons > button > img {
+    height:100%;
+    width: auto;
+
+    aspect-ratio: 4/3;
+    object-fit: contain;
+
+    filter: invert(100%);
+
+    transition: all .2s ease;
+}
+
+.cart-card-buttons > button:hover {
+    background-color: var(--subtleBG-white);
+    
+}
+
+.cart-card-buttons > button:hover  img {
+    filter: invert(0);
+}
+
+.cart-card-buttons > select {
+    height: 1.75rem;
+
+    font-size: 1.15rem;
+    text-align: center;
+
+    border-radius: 1rem;
+}
+
+.empty-cart {
+    padding: 1rem;
+
+    color: var(--subtleBG-white);
+
+    font-size: 2rem;
+    font-weight: 500;
+}

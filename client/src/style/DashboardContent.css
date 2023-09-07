@@ -1,0 +1,11 @@
+.dashboard-content-container {
+    width: 80%;
+    height: auto;
+
+
+
+    padding: 0 .5rem;
+
+    background-color: var(--primary-black);
+    border-radius: 1rem;
+}

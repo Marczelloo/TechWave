@@ -6,6 +6,7 @@ import NewsPage from './components/NewsPage';
 import UnderConstruction from './components/UnderConstruction';
 import Login from './components/Login';
 import Register from './components/Register';
+import Dashboard from './components/Dashboard';
 import { createBrowserRouter, RouterProvider} from "react-router-dom"; 
 
 const Router = createBrowserRouter([
@@ -34,8 +35,8 @@ const Router = createBrowserRouter([
       element: <></>,
   },
   {
-      path: '/Account',
-      element: <></>,
+      path: '/Dashboard',
+      element: <Dashboard/>,
   },
   {
       path: '/Login',
