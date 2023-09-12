@@ -53,12 +53,16 @@ function NavBarButtons() {
 
     }
 
+    const setDashboardContent = (content: string) => {
+      localStorage.setItem('dashboard-content', content);
+    }
+
   return (
     <div className='NavBarButtons'>
-        <Link to='./Cart' className='koszyk'>
+        <Link to='/Cart' className='koszyk' onClick={() => setDashboardContent('cart')}>
             <NavBtn icon={cart} heading={H_cart} />
         </Link>
-        <Link to='./Lists' className='lista'>
+        <Link to='/Wishlist' className='lista' onClick={() => setDashboardContent('wishlist')}>
             <NavBtn icon={list} heading={H_list} />
         </Link>
         <div onClick={handleAccount} className='konto'>

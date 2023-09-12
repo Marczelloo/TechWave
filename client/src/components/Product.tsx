@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import '../style/Product.css';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState  } from 'react';
-import cart from '../assets/cart.png';
+import cartImg from '../assets/cart.png';
 import avaible_icon from '../assets/avaible.png';
 import addToList from '../assets/addList.png';
 import shipping from '../assets/shipping.png';
@@ -11,8 +11,8 @@ import installment from '../assets/installment.png';
 import goBackArrow from '../assets/goBackArrow.png';
 import star from '../assets/star.png';
 import Review from "./Review";
-import Popup from "./Popup";
 
+import { usePopup } from "./PopupProvider";
 // #TODO:
 // - Seperate this element into smaller ones
 //
@@ -40,14 +40,14 @@ type Props = {}
 function Product({}: Props) {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const id = searchParams.get('product_id');
+  const id = parseInt(searchParams.get('product_id') ?? '0');
 
   const [product, setProduct] = useState<Product | null>(null);
 
   const [specification, setSpecification] = useState<string[] | undefined>(undefined);
 
-  const [imageList, setImageList] = useState<string[] | undefined>(undefined);
-  const [mainImage, setMainImage] = useState<string | undefined>(undefined);
+  const [imageList, setImageList] = useState<string[]>([]);
+  const [mainImage, setMainImage] = useState<string | undefined>('');
 
   const [nextImgBtnVis, setNextImgBtnVis] = useState<boolean>(false);
   const [prevImgBtnVis, setPrevImgBtnVis] = useState<boolean>(true);
@@ -60,7 +60,8 @@ function Product({}: Props) {
 
   const [avaible, setAvaible] = useState<boolean>(false);
 
-  const [reviews, setReviews] = useState<Reviews[] | null>(null);  
+  const [reviews, setReviews] = useState<Reviews[] | undefined>(undefined);
+  const [reviewsCount, setReviewsCount] = useState<number | null>(null);  
   const [reviewAvergeRate, setReviewAvergeRate] = useState<number | null>(null);
   const [reviewRatesFor5, setReviewRatesFor5] = useState<number | null>(null);
   const [reviewRatesFor4, setReviewRatesFor4] = useState<number | null>(null);
@@ -68,12 +69,12 @@ function Product({}: Props) {
   const [reviewRatesFor2, setReviewRatesFor2] = useState<number | null>(null);
   const [reviewRatesFor1, setReviewRatesFor1] = useState<number | null>(null);
 
-  
   const [reviewText, setReviewText] = useState<string | null>(null);
   const [reviewRate, setReviewRate] = useState<number | null>(null);
 
-  const [showPopup, setShowPopup] = useState<boolean>(false);
-  const [popupInfo, setPopupInfo] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const { showPopup } = usePopup();
   
   useEffect(() => {
     updateVis();
@@ -135,7 +136,7 @@ function Product({}: Props) {
         const data = await response.json();
         if(data.success === 0)
         {
-          setReviews(null);
+          setReviews(undefined);
         }
         else if(data.success === 1)
         {
@@ -154,6 +155,13 @@ function Product({}: Props) {
 
   useEffect(() => {
     const countReviewAvergeRate = () => {
+      if(reviews === undefined || reviews === null || reviews.length === 0)
+      {
+        setReviewAvergeRate(0);
+        setReviewsCount(0);
+        return;
+      }
+
       let rateSum: number = 0;
 
       reviews?.forEach(element => {
@@ -162,10 +170,11 @@ function Product({}: Props) {
 
       const avergeRate = rateSum / reviews?.length;
       
+      setReviewsCount(reviews.length);
       setReviewAvergeRate(avergeRate);
     }
 
-    const counrReviewRates = () => {
+    const countReviewRates = () => {
       const rateCounts = {};
 
       reviews?.forEach(element => {
@@ -180,7 +189,7 @@ function Product({}: Props) {
       setReviewRatesFor5(rateCounts[5])
     }
 
-    counrReviewRates();
+    countReviewRates();
     countReviewAvergeRate();
   }, [reviews])
 
@@ -197,6 +206,76 @@ function Product({}: Props) {
   
   const handleReviewRateChange = (event: any) => {
     setReviewRate(event.target.value);
+  }
+
+  const handleQuantityChange = (quantity: number) => {
+    setQuantity(quantity);
+    console.log(quantity);
+  }
+
+  const handleAddToCart = () => {
+    const existingCartString = localStorage.getItem('cart');
+    const existingCart = existingCartString ? JSON.parse(existingCartString) : [];
+  
+    let updatedCart = [];
+  
+    if (existingCart.length <= 0) 
+    {
+      updatedCart = [{ id_product: id, quantity: quantity }];
+    } 
+    else 
+    {
+      const existingProduct = existingCart.filter((product: { id_product: number}) => product.id_product === id);
+      const existingProductIndex = existingCart.findIndex((product: { id_product: number}) => product.id_product === id);
+  
+      console.log('Existing product', existingProduct);
+  
+      if (existingProduct.length > 0 && existingProduct[0].id_product === id) 
+      {
+        console.log('Product already exists in the cart.');
+  
+        updatedCart = [...existingCart];
+        updatedCart[existingProductIndex].quantity += quantity;
+      } 
+      else 
+      {
+        updatedCart = [...existingCart, { id_product: id, quantity: quantity }];
+      }
+    }
+  
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    showPopup('Product successfully added to cart')
+  }
+
+  const handleAddToList = () => {    
+    const existingWishlistString = localStorage.getItem('wishlist');
+    const existingWishlist = existingWishlistString ? JSON.parse(existingWishlistString) : [];
+
+    let updatedWishlist = [];
+
+    if(existingWishlist.length <= 0) 
+    {
+      updatedWishlist = [{ id_product: id, quantity: quantity}];
+    }
+    else
+    {
+      const existingProduct = existingWishlist.filter((product: { id_product: number}) => product.id_product === id);
+      const existingProductIndex = existingWishlist.findIndex((product: { id_product: number }) => product.id_product === id);
+
+      if(existingProduct.length > 0 && existingProduct[0].id_product === id)
+      {
+        updatedWishlist = [...existingWishlist];
+        updatedWishlist[existingProductIndex].quantity += quantity;
+      } 
+      else
+      {
+        updatedWishlist = [...existingWishlist, { id_product: id, quantity: quantity}];
+      }
+    }
+
+    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+    //PopUp('Product successfully added to wishlist!', 4, setShowPopup, setPopupInfo);
+    showPopup('Product successfully added to wishlist');
   }
 
   const handleSubmit = async (event: any) => {
@@ -252,37 +331,23 @@ function Product({}: Props) {
       if(data.success === 1)
       {
         console.log('test');
-        setPopupInfo('Review successfully sent!');
-        setShowPopup(true);
-
-        setTimeout(() => {
-          setShowPopup(false);
-        }, 4000)
+        //PopUp('Review successfully sent!', 4, setShowPopup, setPopupInfo);
       }
       else
       {
         console.log('test not');
-        setPopupInfo('Error, reviev not sent! Try again later!');
-        setShowPopup(true);
-
-        setTimeout(() => {
-          setShowPopup(false);
-        }, 4000)
+        //PopUp('Error, reviev not sent! Try again later!', 4, setShowPopup, setPopupInfo);
       }
     }
     catch(error)
     {
       console.error(error);
     }
-    
 }
 
   return (
     <div className="wrapper">
         <Navbar/>
-        <Popup 
-        visible={showPopup}
-        info={popupInfo} />
         <div className='product-wrapper'>
           <h1 className='product-title'> {product?.name} </h1>
           <div className='product-section'> 
@@ -341,7 +406,7 @@ function Product({}: Props) {
                   
             </div>
             <div className='buy-container'>
-                  <div className='wishlist'>
+                  <div className='wishlist' onClick={handleAddToList}>
                     <img src={addToList} alt='add to list icon'/>
                   </div>
                   { onSale ? ( <div className='onSale'>
@@ -352,16 +417,16 @@ function Product({}: Props) {
                     : ( <p className='price'> { product?.price } $</p> )
                   } 
                   <div className='buy-buttons-container'>
-                    <select className='quantity' name="quantity" id="quantity">
-                      <option value="1"> 1 </option>
-                      <option value="2"> 2 </option>
-                      <option value="3"> 3 </option>
-                      <option value="4"> 4 </option>
-                      <option value="5"> 5 </option>
-                      <option value="10"> 10 </option>
+                    <select className='quantity' name="quantity" id="quantity" value={quantity} onChange={(event) => handleQuantityChange(parseInt(event.target.value))}>
+                      <option value={1}> 1 </option>
+                      <option value={2}> 2 </option>
+                      <option value={3}> 3 </option>
+                      <option value={4}> 4 </option>
+                      <option value={5}> 5 </option>
+                      <option value={10}> 10 </option>
                     </select>
-                    <div className='add-to-cart'>
-                      <img src={cart} alt='add-to-cart-image'/>
+                    <div className='add-to-cart' onClick={handleAddToCart}>
+                      <img src={cartImg} alt='add-to-cart-image'/>
                       <p> Add to cart </p>
                     </div>
                   </div>
@@ -431,7 +496,7 @@ function Product({}: Props) {
                           <img src={star} />
                   
                         </div>
-                        <p className='review-gave-count'> reviews: {'55'} </p>
+                        <p className='review-gave-count'> reviews: {reviewsCount} </p>
                       </div>
                       <div className='reviews-rate-list'>
                         <div className='rate-elem'> <p> <img src={star} /> <p> 5 </p></p> <div className='rate-elem-spacer'></div> <p> { reviewRatesFor5 ? reviewRatesFor5 : 0 } </p> </div>
@@ -500,9 +565,9 @@ function Product({}: Props) {
                   </div>
                   <div className='customers-reviews-container'>
                     {
-                      reviews === null ? <p className='no-reviews'> No reviews found for this product <br/> 
+                      reviews === undefined ? <p className='no-reviews'> No reviews found for this product <br/> 
                       Be the first one to review this product! </p> :
-                      reviews.map(element => {
+                      reviews?.map(element => {
                         return <Review 
                         key = {"Review" +  element.id_user + element.review_date}
                         uid = { element.id_user}

@@ -1,18 +1,18 @@
 import '../style/Popup.css';
+import { usePopup } from './PopupProvider';
 
-type Props = {
-    visible: boolean,
-    info: string | null,
-}
+type Props = {}
 
-function Popup({ visible, info }: Props) {
+function Popup({}: Props) {
+    const { isVisible, content } = usePopup();
     const popupStyle = {
-        transform: visible ? 'translate(0)' : 'translate(100%)',
+        transform: isVisible ? 'translate(0)' : 'translate(100%)',
     };
+    
 
   return (
     <div className='popup-container' style={popupStyle}>
-        <p> { info } </p>
+        <p> { content } </p>
     </div>
   )
 }

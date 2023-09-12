@@ -9,6 +9,9 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import { createBrowserRouter, RouterProvider} from "react-router-dom"; 
 
+import { PopupProvider } from './components/PopupProvider';
+import Popup from './components/Popup';
+
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -27,16 +30,16 @@ const Router = createBrowserRouter([
     element: <UnderConstruction/>
   },
   {
-      path: '/Cart',
-      element: <></>,
-  },
-  {
-      path: '/List',
-      element: <></>,
-  },
-  {
       path: '/Dashboard',
       element: <Dashboard/>,
+  },
+  {
+    path: '/Cart',
+    element: <Dashboard page="cart"/>,
+  },
+  {
+    path: '/Wishlist',
+    element: <Dashboard page="wishlist"/>,
   },
   {
       path: '/Login',
@@ -50,8 +53,10 @@ const Router = createBrowserRouter([
 
 function App() {
   return (
-    <RouterProvider router={Router} />
-    
+    <PopupProvider>
+          <RouterProvider router={Router} />
+          <Popup />
+    </PopupProvider>
   )
 }
 

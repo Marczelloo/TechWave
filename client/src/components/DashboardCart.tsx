@@ -5,9 +5,7 @@ import CartOrderProduct from './DashboardCartOrder';
 
 import { useState, useEffect } from 'react';
 
-type Props = {
-
-}
+type Props = {}
 
 interface Cart {
     id: number,
@@ -24,6 +22,7 @@ function DashboardCart({}: Props) {
     {id: 4, name: "test", price: 1599, image: "http://localhost:8080/images/products/1/image1.png", quantity: 1 },
     {id: 5, name: "test", price: 1599, image: "http://localhost:8080/images/products/1/image1.png", quantity: 5 }]
   
+    const [cartId, setCartId] = useState<number[]>([]);
     const [cart, setCart] = useState<Cart[] | undefined>(test);
     const [summPrice, setSummPrice] = useState<number>(0);
 
@@ -96,6 +95,9 @@ function DashboardCart({}: Props) {
                             <CartOrderProduct name={elem.name} quantity={elem.quantity} price={elem.price} />
                         ))}
                         <h4> Total price: {summPrice} $</h4>
+                        <div className='cart-order-button-container'>
+                            <button> Procced to Shipping</button>
+                        </div>
                     </div>
                 )
             }

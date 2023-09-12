@@ -8,13 +8,22 @@ import list_icon from '../assets/addList.png';
 import review_icon from '../assets/review.png';
 import logout from '../assets/logout.png';
 
+import { useEffect } from 'react';
+
 type Props = {
     onContentChange: (content: string) => void,
+    page?: string,
 }
 
-function DashboardNavbar({ onContentChange }: Props) {
-    const [selectedItem, setSelectedItem] = useState<string>('orders');
-
+function DashboardNavbar({ onContentChange, page }: Props) {
+    const [selectedItem, setSelectedItem] = useState<string>(page ? page : 'orders');
+    
+    useEffect(() => {
+        if(page != null) 
+        setSelectedItem(page);
+        else
+        setSelectedItem('orders')
+    }, [page])
     const handleItemClick = (content: string) => {
         onContentChange(content);
         setSelectedItem(content);
