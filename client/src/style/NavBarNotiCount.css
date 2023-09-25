@@ -1,0 +1,26 @@
+.navbar-notification-count {
+    position: absolute;
+
+    top: 0;
+    right: 15%;
+
+    width: 1.25rem;
+    height: 1.25rem;
+
+    z-index: 10;
+    
+    padding: .5rem;
+
+    background-color: var(--action-aqua);
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--subtleBG-white);
+    font-size: .85rem;
+    font-weight: 700;
+    
+
+}

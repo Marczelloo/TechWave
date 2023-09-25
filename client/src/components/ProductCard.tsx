@@ -94,7 +94,7 @@ function ProductCard({id, name, image, price, sale, new_price}: Props) {
     <Link to={{ pathname: './Product', search: `product_id=${id}`}} className='ProductCard'>
         <h1> {name} </h1>
         <img src={image} alt='product-main-image'></img>
-        { sale == true ? <p> <span className="discount"> {price} zl </span> &nbsp; {new_price} zl </p> :  <p> {price} zł </p>}
+        { sale == true ? <p> <span className="discount"> {price} $ </span> &nbsp; {new_price} $ </p> :  <p> {price} $ </p>}
         <div className='BtnContainer'>
             <button onClick={(event) => handleAddToWishlist(event)} className='AddToListBtn'>
                 <img src={addToList} alt="dodaj do list"></img>

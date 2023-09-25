@@ -9,7 +9,7 @@ type Props = {
 function DashboardCartOrder({name, price, quantity}: Props) {
   return (
     <div className='dashboard-cart-order'>
-        <p> {name} x {quantity}</p>
+        <p> {name} | x&nbsp;{quantity}</p>
         <p> {price} $</p>
     </div>
   )

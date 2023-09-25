@@ -69,7 +69,6 @@
 }
 
 
-
 .AddToCartBtn, .AddToListBtn {
     all: unset;
 
@@ -89,6 +88,8 @@
     height: 80%;
     aspect-ratio: 4/3;
     object-fit: contain;
+
+    filter: invert(100%);
 }
 
 .AddToCartBtn > img {
@@ -100,13 +101,17 @@
     
     border-radius: 1rem 0 0 1rem;
 
-    
+    transition: filter .2 ease;
 }
 
 .AddToListBtn:hover {
     background-color: var(--subtleBG-white);
 
     transition: background-color .2 ease;
+}
+
+.AddToListBtn:hover > img {
+    filter: invert(0);
 }
 
 .AddToCartBtn {

@@ -5,14 +5,15 @@ import '../style/NavBar.css'
 import { Link } from "react-router-dom";
 import { useEffect } from 'react';
 
-export default function Navbar() {
-
+const Navbar = () => {
+  
   useEffect(() => {
     window.scroll({
       top: 0,
       left: 0,
       behavior: 'auto',
     })
+
   }, [])
 
   return (
@@ -30,3 +31,5 @@ export default function Navbar() {
     </nav>
   )
 }
+
+export default Navbar;

@@ -25,8 +25,7 @@ function Dashboard({ page }: Props) {
     setSelectedContent(page);
     else
     setSelectedContent('orders');
-  }, [page])
-  
+  }, [page])  
 
   return (
     <div>

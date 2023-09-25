@@ -9,6 +9,8 @@
 }
 
 .koszyk, .lista, .konto {
+    position: relative;
+    
     text-decoration: none;
     
     width: 33%;

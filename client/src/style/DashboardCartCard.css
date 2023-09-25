@@ -35,7 +35,7 @@
 }
 
 .cart-card-price { 
-    width: 15%;
+    width: 20%;
 
     display: flex;
     align-items: center;
@@ -47,7 +47,7 @@
 }
 
 .cart-card-buttons {
-    width: 30%;
+    width: 25%;
 
     display: flex;
     align-items: center;

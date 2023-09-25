@@ -15,35 +15,103 @@ interface Cart {
     quantity: number,
 }
 
-function DashboardCart({}: Props) {
-    const test = [{id: 1, name: "test", price: 1599, image: "http://localhost:8080/images/products/1/image1.png", quantity: 1 },
-    {id: 2, name: "produkt", price: 456, image: "http://localhost:8080/images/products/1/image1.png", quantity: 2 },
-    {id: 3, name: "test", price: 1599, image: "http://localhost:8080/images/products/1/image1.png", quantity: 3 },
-    {id: 4, name: "test", price: 1599, image: "http://localhost:8080/images/products/1/image1.png", quantity: 1 },
-    {id: 5, name: "test", price: 1599, image: "http://localhost:8080/images/products/1/image1.png", quantity: 5 }]
-  
-    const [cartId, setCartId] = useState<number[]>([]);
-    const [cart, setCart] = useState<Cart[] | undefined>(test);
+interface idCart {
+    id_product: number,
+    quantity: number,
+    filter: any,
+    length: any,
+    map: any,
+}
+
+function DashboardCart({}: Props) {  
+    const [cartId, setCartId] = useState<idCart>();
+    const [cart, setCart] = useState<Cart[] | undefined>(undefined);
     const [summPrice, setSummPrice] = useState<number>(0);
 
     useEffect(() => {
+        const getCartId = () => {
+            
+            const cart = localStorage.getItem('cart');
+            const parsedCart: idCart = cart ? JSON.parse(cart) : [];
+            
+            setCartId(parsedCart);
+         }
+
+         getCartId();
+    }, [])
+
+    useEffect(() => {
         const calcSummPrice = () => {
-            let summPrice = 0;
+            let sumPrice = 0;
             cart?.forEach(element => {
-                summPrice += element.price;
+                sumPrice += element.price * element.quantity
+                sumPrice = parseFloat(sumPrice.toFixed(2));
             });
             
-            setSummPrice(summPrice);
-        }
-
-        const fetchData = () => {
-            console.log(cart);
+            setSummPrice(sumPrice);
         }
         
         calcSummPrice();
-        fetchData();
     }, [cart])
 
+    
+
+    useEffect(() => {
+        const updateLocalStorage = () => {
+            localStorage.setItem('cart', JSON.stringify(cartId));
+        }
+        
+        const fetchData = async () => {
+          if (cartId?.length === 0) return;
+      
+          try {
+            const fetchPromises = cartId?.map(async (cart: idCart) => {
+              const response = await fetch(`http://localhost:8080/products/${cart.id_product}`, {
+                method: 'GET',
+              });
+      
+              if (!response.ok) {
+                throw new Error('Request failed');
+              }
+      
+              const data = await response.json();
+      
+              const fetchedCart: Cart = {
+                id: data.id,
+                name: data.name,
+                price: data.price,
+                image: data.images[0],
+                quantity: cart.quantity,
+              };
+      
+              return fetchedCart;
+            });
+      
+            const cartData = await Promise.all(fetchPromises);
+      
+            // Filter out duplicates before updating the cart state
+            setCart((prev) => {
+              const prevArray = prev || [];
+              const updatedCart = [...prevArray, ...cartData].reduce((acc, current) => {
+                const existingItem = acc.find((item: { id: number}) => item.id === current.id);
+                if (!existingItem) {
+                  acc.push(current);
+                }
+                return acc;
+              }, []);
+              return updatedCart;
+            });
+      
+            updateLocalStorage();
+          } catch (error) {
+            console.error(error);
+          }
+        };
+      
+        fetchData();
+      }, [cartId]);
+      
+    
     const cartHandleQuantityChange = (prodId: number, newQuantity: number) => {
         setCart((prevCart) =>
             prevCart?.map((product) => product.id === prodId ? {...product, quantity:newQuantity } : product)
@@ -55,19 +123,21 @@ function DashboardCart({}: Props) {
             console.log("Add to list, prodId", prodId);
         }
         cart?.map((product) => {
-            product.id === prodId && addToList  
+            product.id === prodId && addToList();  
         })
     }
 
     const handleRemove = (prodId: number) => {
-        setCart((prevCart) => prevCart?.filter((product) => product.id !== prodId))
+        setCart((prevCart) => prevCart?.filter((product) => product.id !== prodId));
+        setCartId((prevCart) => prevCart?.filter((product: { id_product: number }) => product.id_product !== prodId));
+        localStorage.setItem('cart', JSON.stringify(cartId?.filter((product : {id_product: number}) => product.id_product !== prodId)));
     }
-    
+
   return (
     <div className='dashboard-cart-container'>
         <h2> Cart </h2>
         {
-            cart === undefined || cart.length === 0 && <p className='empty-cart'> Your cart is empty! </p>
+            (cart === undefined || cart.length === 0) && <p className='empty-cart'> Your cart is empty! </p>
         }
         <div className='dashboard-cart-content'>
             <div className='cart-container'>
@@ -83,7 +153,9 @@ function DashboardCart({}: Props) {
                     quantity={elem.quantity} 
                     handleOnChange={cartHandleQuantityChange}
                     handleAddToList={handleAddToList}
-                    handleRemove={handleRemove}/>
+                    handleRemove={handleRemove}
+                    cartCard={true}
+                    />
                 })) 
             }
             </div>

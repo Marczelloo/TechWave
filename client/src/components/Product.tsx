@@ -274,7 +274,6 @@ function Product({}: Props) {
     }
 
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-    //PopUp('Product successfully added to wishlist!', 4, setShowPopup, setPopupInfo);
     showPopup('Product successfully added to wishlist');
   }
 

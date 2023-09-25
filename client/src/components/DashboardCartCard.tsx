@@ -1,8 +1,8 @@
-import React from 'react'
 import '../style/DashboardCartCard.css';
 
 import trashcan from '../assets/trash.png';
 import list from '../assets/addList.png';
+import cart from '../assets/addCart.png';
 
 type Props = {
     id: number,
@@ -13,9 +13,10 @@ type Props = {
     handleOnChange: (prodId: number, event: any) => void,
     handleAddToList: (prodId: number) => void,
     handleRemove: (prodId: number) => void,
+    cartCard?: boolean,
 }
 
-function DashboardCartCard({ id, name, price, image, quantity, handleOnChange, handleAddToList, handleRemove }: Props) {
+function DashboardCartCard({ id, name, price, image, quantity, handleOnChange, handleAddToList, handleRemove, cartCard}: Props) {
   return (
     <div className='dashboard-cart-card-container'>
         <img src={image} alt='cart product'/>
@@ -34,7 +35,7 @@ function DashboardCartCard({ id, name, price, image, quantity, handleOnChange, h
                 <option value={5}> 5 </option>
                 <option value={10}> 10 </option>
             </select>
-            <button onClick={() => handleAddToList(id)} > <img src={list} alt='add to list button icon'/> </button>
+            <button onClick={() => handleAddToList(id)} > <img src={cartCard ? list : cart} alt={cartCard ? "add to list button icon" : "add to cart button icon"}/> </button>
             <button onClick={() => handleRemove(id)}> <img src={trashcan} alt='delete from cart button icon'/></button>
         </div>
     </div>
