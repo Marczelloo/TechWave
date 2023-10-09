@@ -56,11 +56,6 @@ function Login({}: Props) {
         {
             setLoginInfoError(data.info);
         }
-
-        console.log(login);
-        console.log(password);
-        console.log(hashedPassword);
-        console.log(rememberMe);
     }
 
   return (

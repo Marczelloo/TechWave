@@ -18,7 +18,7 @@ function review({ uid, reviewRate, reviewText, reviewDate }: Props) {
 
     const [userAvatar, setUserAvatar] = useState<string | undefined>(personIcon);
     const [userName, setUserName] = useState<string | null>(null);
-    const [reviewDateAgo, setReviewDateAgo] = useState<string | null>('2 months ago');
+    const [reviewDateAgo, setReviewDateAgo] = useState<string | null>(null);
     const [stars, setStars] = useState<JSX.Element[] | null>(null);
 
     

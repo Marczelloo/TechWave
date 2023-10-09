@@ -1,6 +1,6 @@
 :root {
     --primary-black: #1B2223;
-    --secondary-gray: #3A4F50;
+    --secondary-gray: rgb(58, 79, 80);
     --action-aqua: #0ED6CC;
     --subtleBG-white: #F4FEFD;
     --action-red: rgb(235, 94, 94);

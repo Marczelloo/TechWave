@@ -23,6 +23,8 @@ const register = require('./routes/post_Register.js');
 const user = require('./routes/get_User.js');
 const reviews = require('./routes/get_Reviews.js');
 const post_review = require('./routes/post_Review.js');
+const userReviews = require('./routes/get_UserReviews.js');
+const delete_review = require('./routes/delete_review.js');
 
 app.use('/products', product);
 app.use('/recommended', recommended);
@@ -36,6 +38,8 @@ app.use('/register', register);
 app.use('/user', user);
 app.use('/reviews', reviews);
 app.use('/post_review', post_review)
+app.use('/userReviews', userReviews);
+app.use('/delete_review', delete_review);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

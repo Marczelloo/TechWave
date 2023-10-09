@@ -330,12 +330,12 @@ function Product({}: Props) {
       if(data.success === 1)
       {
         console.log('test');
-        //PopUp('Review successfully sent!', 4, setShowPopup, setPopupInfo);
+        showPopup('Review successfully sent!');
       }
       else
       {
         console.log('test not');
-        //PopUp('Error, reviev not sent! Try again later!', 4, setShowPopup, setPopupInfo);
+        showPopup('Error, reviev not sent! Try again later!');
       }
     }
     catch(error)
@@ -485,7 +485,7 @@ function Product({}: Props) {
                     <div className='reviews-counts'>
                       <div className='averge-reviews'>
                         <p className='review-count'>
-                          { reviewAvergeRate } / 5 <img src={star} />
+                          { reviewAvergeRate?.toFixed(1) } / 5 <img src={star} />
                         </p>
                         <div className='review-stars-vis'>
                           <img src={star} />
