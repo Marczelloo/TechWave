@@ -6,10 +6,12 @@ const PORT = 8080;
 
 app.use( express.json() );
 
-app.use(cors({
+const corsOptions = {
     origin: 'http://localhost:5173',
     credentials: true,
-}));
+};
+
+app.use(cors(corsOptions));
 
 const product = require('./routes/get_Product.js');
 const recommended = require('./routes/get_Recommended.js');
@@ -25,6 +27,13 @@ const reviews = require('./routes/get_Reviews.js');
 const post_review = require('./routes/post_Review.js');
 const userReviews = require('./routes/get_UserReviews.js');
 const delete_review = require('./routes/delete_review.js');
+const edit_review = require('./routes/post_EditReview.js');
+const get_userInfo = require('./routes/get_UserInfo.js');
+const post_UserUpdateEmail = require('./routes/post_UserUpdateEmail.js');
+const post_UserUpdatePassword = require('./routes/post_UserUpdatePassword.js');
+const post_UserUpdateUsername = require('./routes/post_UserUpdateUsername.js');
+const delete_User = require('./routes/delete_User.js');
+const put_UserIcon = require('./routes/put_UserIcon.js');
 
 app.use('/products', product);
 app.use('/recommended', recommended);
@@ -40,7 +49,15 @@ app.use('/reviews', reviews);
 app.use('/post_review', post_review)
 app.use('/userReviews', userReviews);
 app.use('/delete_review', delete_review);
+app.use('/edit_review', edit_review);
+app.use('/get_userInfo', get_userInfo);
+app.use('/post_userUpdateEmail', post_UserUpdateEmail);
+app.use('/post_userUpdatePassword', post_UserUpdatePassword);
+app.use('/post_userUpdateUsername', post_UserUpdateUsername);
+app.use('/delete_user', delete_User);
+app.use('/put_UserIcon', put_UserIcon);
 
+app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.listen(

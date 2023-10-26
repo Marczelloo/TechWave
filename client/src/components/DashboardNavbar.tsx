@@ -97,7 +97,7 @@ function DashboardNavbar({ onContentChange, page }: Props) {
         <div className={`dashboard-navbar-button ${selectedItem === 'settings' ? 'selected' : ''}`}
             onClick={() => handleItemClick('settings')}>
             <img src={settings_icon} alt='settings-button-img'/>
-            <p> Account settings </p>
+            <p> Account <br/> settings </p>
             <div className='selected-dot'></div>
         </div>
         <div className={`dashboard-navbar-button  ${selectedItem === 'logout' ? 'selected' : ''}`}

@@ -33,8 +33,6 @@ function DashboardReviews({}: Props) {
     
           const userId = data.userId;
 
-          console.log(userId);
-
           try
           {
             const response = await fetch(`http://localhost:8080/userReviews/${userId}`, {
@@ -68,7 +66,7 @@ function DashboardReviews({}: Props) {
   }
 
   fetchData();
-  }, [reviews])
+  }, [])
   
   return (
     <div className='dashboard-reviews-container'>

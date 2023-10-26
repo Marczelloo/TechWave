@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
         {
             if(result.length === 0)
             {
-                res.send({
+                res.status(404).send({
                     success: 0,
                     info: 'Invalid email or username',
                 });
@@ -70,14 +70,14 @@ router.post('/', (req, res) => {
                     res.cookie('authToken', authToken, { httpOnly: true, maxAge: expiresIn });
                     res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: ms('90d') });
                     
-                    res.send({
+                    res.status(200).send({
                         success: 1,
                         info: 'login successful',
                     });
                 }
                 else
                 {
-                    res.send({
+                    res.status(401).send({
                         success: 0,
                         info: 'Wrong password',
                     });

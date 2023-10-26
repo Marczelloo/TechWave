@@ -126,3 +126,207 @@
 
     margin-right: 0.5rem;
 }
+
+.dashboard-reviews-submit {
+    width: 50%;
+    height: 60%;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: var(--secondary-gray);
+    border-radius: 1rem;
+}
+
+.dashboard-reviews-submit > p {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.dashboard-reviews-submit > textarea {
+    all: unset;
+
+    border: 2px solid var(--action-aqua);
+
+    background-color: var(--primary-black);
+    color: var(--subtleBG-white);
+    text-align: start;
+    word-wrap: break-word;
+    
+    width: 80%;
+    height: 40%;
+
+    padding: .5rem;
+
+    border-radius: 1rem;
+}
+
+.dashboard-review-star {
+    width: 80%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.dashboard-review-radio-elem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: .5rem;
+
+    font-size: 1.25rem;
+
+    color: var(--subtleBG-white);
+}
+
+.dashboard-review-radio-elem img {
+    height: 1.25rem;
+    width: auto;
+
+    aspect-ratio: 4/3;
+    object-fit: contain;
+
+    filter:invert(100%);
+
+    transform: translateY(1px);
+
+}
+
+.dashboard-review-edit-container {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, .9);
+}
+
+.dashboard-review-submit-btn {
+    all: unset;
+
+    width: 20%;
+    height: auto;
+
+    padding: .5rem;
+
+    border: 2px solid var(--action-aqua);
+    border-radius: 1.5rem;
+
+    color: var(--subtleBG-white);
+    font-size: 1rem;
+    font-weight: 400;
+
+    text-transform: uppercase;
+
+    transition: background-color .2s ease;
+}
+
+.dashboard-review-submit-btn:last-of-type {
+    border-color: var(--action-red);
+}
+
+.dashboard-review-submit-btn:hover {
+    background-color: var(--action-aqua);
+}
+
+.dashboard-review-submit-btn:last-of-type:hover { 
+    background-color: var(--action-red);
+}
+
+.dashboard-review-submit-btn:active {
+    opacity: .7;
+}
+
+.dashboard-review-delete-confirmation{
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, .9);
+}
+
+.dashboard-review-delete-container {
+    width: 50%;
+    height: 20%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem;
+
+    background-color: var(--secondary-gray);
+    border-radius: 1rem;
+}
+
+.dashboard-review-delete-container > h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.dashboard-review-delete-buttons {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.dashboard-review-delete-buttons > button {
+    all: unset;
+
+    width: 20%;
+    height: auto;
+
+    padding: .5rem;
+
+    border: 2px solid var(--action-aqua);
+    border-radius: 1.5rem;
+
+    color: var(--subtleBG-white);
+    font-size: 1.25rem;
+    font-weight: 500;
+
+    text-transform: uppercase;
+
+    transition: background-color .2s ease;
+}
+
+.dashboard-review-delete-buttons > button:first-child {
+    border-color: var(--action-red);
+}
+
+.dashboard-review-delete-buttons > button:first-child:hover {
+    background-color: var(--action-red);
+}
+
+.dashboard-review-delete-buttons > button:last-child:hover{
+    background-color: var(--action-aqua);
+}

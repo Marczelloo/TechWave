@@ -15,7 +15,7 @@ import Review from "./Review";
 import { usePopup } from "./PopupProvider";
 // #TODO:
 // - Seperate this element into smaller ones
-//
+// - Przepisac na aplikacje Pheonix framework, rust albo elxisir
 
 interface Product {
   name: string,
@@ -329,12 +329,10 @@ function Product({}: Props) {
 
       if(data.success === 1)
       {
-        console.log('test');
         showPopup('Review successfully sent!');
       }
       else
       {
-        console.log('test not');
         showPopup('Error, reviev not sent! Try again later!');
       }
     }

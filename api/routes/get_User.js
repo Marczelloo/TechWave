@@ -16,7 +16,7 @@ router.get('/:id', (req, res) => {
         {
             const user = result[0];
             
-            res.send({
+            res.status(200).send({
                 username: user.username,
                 icon: user.icon,
             })

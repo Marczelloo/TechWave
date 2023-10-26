@@ -24,6 +24,13 @@ function DashboardReviewsCard({ id, id_product, review_rate, review_date, review
     const [stars, setStars] = useState<JSX.Element[] | null>(null);
     const [reviewDateAgo, setReviewDateAgo] = useState<string | null>();
 
+    const [showEditWindow, setShowEditWindow] = useState<boolean>(false);
+
+    const [newReviewText, setNewRevievText] = useState<string | undefined>(undefined);
+    const [newReviewRate, setNewReviewRate] = useState<number | undefined>(undefined);
+
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false);
+
     const { showPopup } = usePopup();
 
     
@@ -42,7 +49,6 @@ function DashboardReviewsCard({ id, id_product, review_rate, review_date, review
 
                 const data = await response.json();
 
-                console.log(data);
                 setProdImg(data.images[0]);
                 setProdName(data.name);
                 setProdPrice(data.price);                
@@ -107,9 +113,9 @@ function DashboardReviewsCard({ id, id_product, review_rate, review_date, review
         calcreviewDateAgo();
         manageStarsImg();
         fetchData();
-    }, [])
+    }, [showDeleteConfirmation, showEditWindow])
 
-    const handleDeleteReview = async () => {
+    const handleDeleteReviewSubmit = async () => {
       console.log("Delete Review id: ", id);
 
       try
@@ -132,7 +138,6 @@ function DashboardReviewsCard({ id, id_product, review_rate, review_date, review
 
         const data = await response.json();
 
-        console.log(data);
         if(data.success === 1)
         {
           showPopup("Review deleted successfully");
@@ -146,13 +151,164 @@ function DashboardReviewsCard({ id, id_product, review_rate, review_date, review
       {
         console.error(error);
       }
+
+      setShowDeleteConfirmation(false);
     }
 
-    const handleEditReview = () => {
-
+    const handleEditReview = (e : any) => {
+      e.preventDefault();
+      setShowEditWindow(true)
     }
+
+    const handleDeleteReview = (e : any) => {
+      e.preventDefault();
+      setShowDeleteConfirmation(true);
+    }
+
+    const handleCancelEditeReview = (e : any) => {
+      e.preventDefault();
+      setShowEditWindow(false);
+    }
+
+    const handleDeleteReviewCancel = (e : any) => {
+      e.preventDefault();
+      setShowDeleteConfirmation(false);
+    }
+    
+    const handleEditRevievRate = (e : number) => {
+      setNewReviewRate(e);
+    }
+
+    const handleEditReviewText = (e : string) => {
+      setNewRevievText(e);
+    }
+
+    const handleEditRevievSubmit = async (e : any) => {
+      e.preventDefault();
+
+      if(newReviewText === undefined || newReviewText === null || newReviewText === "")
+      {
+        showPopup("Review not send! Review text is empty");
+        return;
+      }
+      else if(newReviewRate === undefined || newReviewRate === null)
+      {
+        showPopup("Review not send! Review rate is empty");
+        return;
+      }
+
+
+      try
+      {
+        const response = await fetch('http://localhost:8080/edit_review', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              id: id,
+              review_rate: newReviewRate,
+              review_text: newReviewText,
+          })
+        });
+
+        if(!response.ok)
+        {
+          throw new Error('Internal Server Error');
+        }
+        else
+        {
+          showPopup("Review was successfully edited!");
+        }
+      }
+      catch(error)
+      {
+        console.error(error);
+      }
+      
+      setShowEditWindow(false);
+      setNewRevievText(undefined);
+      setNewReviewRate(undefined);
+    }      
+  
   return (
     <div className='reviews-card-container'>   
+        <div className='dashboard-review-delete-confirmation' style={{ display: showDeleteConfirmation ? 'flex' : 'none' }}>
+          <div className='dashboard-review-delete-container'>
+            <h3> Are you sure you want to delete your review for {prodName}? </h3>
+            <div className='dashboard-review-delete-buttons'>
+              <button className='dashboard-review-delete-yes'
+              onClick={handleDeleteReviewSubmit}>
+                Yes
+              </button>
+              <button className='dashboard-review-delete-no'
+              onClick={handleDeleteReviewCancel}>
+                No
+              </button>
+            </div>
+          </div>        
+        </div>
+        <div className='dashboard-review-edit-container' style={{ display: showEditWindow ? 'flex' : 'none' }}>
+          <form className='dashboard-reviews-submit' onSubmit={handleEditRevievSubmit}>
+                      <p> Change your review for {prodName}</p>
+                      <textarea 
+                      placeholder='Your review. . .' 
+                      id='review-text'
+                      name='review-text'
+                      onChange={(e) => handleEditReviewText(e.target.value)}
+                      />
+                      <div className='dashboard-review-star'>
+                        <div className='dashboard-review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review" 
+                          value={5} 
+                          onChange={(e) => handleEditRevievRate(parseInt(e.target.value))}/>
+                          <label> 5 <img src={star} /></label>
+                        </div>
+                        <div className='dashboard-review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review" 
+                          value={4}
+                          onChange={(e) => handleEditRevievRate(parseInt(e.target.value))}/>
+                          <label> 4 <img src={star} /></label>
+                        </div>
+                        <div className='dashboard-review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review" 
+                          value={3}
+                          onChange={(e) => handleEditRevievRate(parseInt(e.target.value))}/>
+                          <label> 3 <img src={star} /></label>
+                        </div>
+                        <div className='dashboard-review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review" 
+                          value={2}
+                          onChange={(e) => handleEditRevievRate(parseInt(e.target.value))}/>
+                          <label> 2 <img src={star} /></label>
+                        </div>
+                        <div className='dashboard-review-radio-elem'>
+                          <input 
+                          type="radio" 
+                          id="star-1" 
+                          name="star-review"
+                          value={1}
+                          onChange={(e) => handleEditRevievRate(parseInt(e.target.value))}/>
+                          <label> 1 <img src={star} /></label>
+                        </div>
+                      </div>
+                      <button className='dashboard-review-submit-btn' type='submit' onClick={(e) => handleEditRevievSubmit(e)}> Submit </button>
+                      <button className='dashboard-review-submit-btn' onClick={(e) => handleCancelEditeReview(e)}> Cancel </button>
+            </form>
+        </div>
         <div className='reviews-card-product-container'>
             <h4> {prodName} </h4>
             <img src={prodImg} alt="review product image"/>
