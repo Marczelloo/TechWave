@@ -25,7 +25,7 @@ interface idCart {
 
 function DashboardCart({}: Props) {  
     const [cartId, setCartId] = useState<idCart>();
-    const [cart, setCart] = useState<Cart[] | undefined>(undefined);
+    const [cart, setCart] = useState<Cart[]>([]);
     const [summPrice, setSummPrice] = useState<number>(0);
 
     useEffect(() => {

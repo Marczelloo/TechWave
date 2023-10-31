@@ -9,9 +9,10 @@ import Logout from '../components/DashboardLogout';
 
 type Props = {
     selectedContent: string,
+    setSelectedContent: (conent: string) => void,
 }
 
-function DashboardContent({ selectedContent }: Props) {
+function DashboardContent({ selectedContent, setSelectedContent }: Props) {
     const displayContent = () => {
         switch(selectedContent){
             case 'orders':
@@ -30,7 +31,7 @@ function DashboardContent({ selectedContent }: Props) {
                 return <Settings/>
             break;
             case 'logout':
-                return <Logout/>
+                return <Logout setSelectedContent={setSelectedContent}/>
             break;
             default:
                 return <Orders/>

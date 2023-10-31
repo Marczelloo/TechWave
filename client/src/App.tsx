@@ -10,6 +10,7 @@ import UnderConstruction from './components/UnderConstruction';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
+import SearchResultPage from './components/SearchResultPage';
 
 import { PopupProvider } from './components/PopupProvider';
 
@@ -51,6 +52,10 @@ const Router = createBrowserRouter([
   {
       path: '/Register',
       element: <Register/>,
+  },
+  {
+      path: '/Search-result',
+      element: <SearchResultPage/>,
   }
 ]);
 

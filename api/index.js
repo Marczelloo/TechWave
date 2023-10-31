@@ -19,7 +19,6 @@ const hotdeals = require('./routes/get_HotDeals.js');
 const news_card = require('./routes/get_NewsCards.js');
 const news = require('./routes/get_News.js');
 const login = require('./routes/post_Login.js');
-const logout = require('./routes/post_Logout.js');
 const protected = require('./routes/get_Protected.js');
 const register = require('./routes/post_Register.js');
 const user = require('./routes/get_User.js');
@@ -34,6 +33,9 @@ const post_UserUpdatePassword = require('./routes/post_UserUpdatePassword.js');
 const post_UserUpdateUsername = require('./routes/post_UserUpdateUsername.js');
 const delete_User = require('./routes/delete_User.js');
 const put_UserIcon = require('./routes/put_UserIcon.js');
+const get_ProductByName = require('./routes/get_ProductByName.js');
+const get_SearchProducts = require('./routes/get_SearchProducts.js');
+const get_ProductsByIds = require('./routes/get_ProductsByIds.js');
 
 app.use('/products', product);
 app.use('/recommended', recommended);
@@ -41,7 +43,6 @@ app.use('/hotdeals', hotdeals);
 app.use('/newscards', news_card);
 app.use('/news', news);
 app.use('/login', login);
-app.use('/logout', logout);
 app.use('/protected', protected);
 app.use('/register', register);
 app.use('/user', user);
@@ -55,7 +56,11 @@ app.use('/post_userUpdateEmail', post_UserUpdateEmail);
 app.use('/post_userUpdatePassword', post_UserUpdatePassword);
 app.use('/post_userUpdateUsername', post_UserUpdateUsername);
 app.use('/delete_user', delete_User);
-app.use('/put_UserIcon', put_UserIcon);
+app.use('/put_userIcon', put_UserIcon);
+app.use('/get_productByName', get_ProductByName);
+app.use('/get_searchProducts', get_SearchProducts);
+app.use('/get_productsByIds', get_ProductsByIds);
+
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use('/images', express.static(path.join(__dirname, 'images')));

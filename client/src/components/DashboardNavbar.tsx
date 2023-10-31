@@ -12,13 +12,17 @@ import { useEffect, useState } from 'react';
 
 type Props = {
     onContentChange: (content: string) => void,
-    page?: string,
+    page: string,
 }
 
 function DashboardNavbar({ onContentChange, page }: Props) {
-    const [selectedItem, setSelectedItem] = useState<string>(page ? page : 'orders');
+    const [selectedItem, setSelectedItem] = useState<string>(page);
     const [loggedIn, setLoggedIn] = useState<boolean>();
-
+    
+    useEffect(() =>{
+        setSelectedItem(page);
+    }, [page])
+    
     useEffect(() => {
         const fetchData = async () => {
             try
@@ -38,12 +42,12 @@ function DashboardNavbar({ onContentChange, page }: Props) {
                 if(data.success === 1)
                 {
                     setLoggedIn(true);
-                    setSelectedItem('orders');
+                    setSelectedItem(page ?? 'orders');
                 }
                 else if(data.success === 0)
                 {
                     setLoggedIn(false);
-                    setSelectedItem('cart');
+                    setSelectedItem(page ?? 'cart');
                 }
             }
             catch(error)
@@ -55,12 +59,6 @@ function DashboardNavbar({ onContentChange, page }: Props) {
         fetchData();
     }, [])
     
-    useEffect(() => {
-        if(page != null) 
-        setSelectedItem(page);
-        else
-        setSelectedItem('orders')
-    }, [page])
 
     const handleItemClick = (content: string) => {
         onContentChange(content);

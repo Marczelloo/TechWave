@@ -28,9 +28,9 @@ function DashboardSettings({}: Props) {
   const [userId, setUserId] = useState<number>();
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  //const [password, setPassword] = useState<string>('');
   const [oldPassword, setOldPassword] = useState<string>('');
-  const [newPassowrd, setNewPassword] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
   const [newConfirmPassword, setNewConfirmPassword] = useState<string>('');
   const [userIcon, setUserIcon] = useState<string>('');
   const [uploadedIcon, setUploadedIcon] = useState<File | null>(null);
@@ -86,14 +86,12 @@ function DashboardSettings({}: Props) {
           {
             setUsername('');
             setEmail('');
-            setPassword('');
             setUserIcon('');
           }
           else if(data.success === 1)
           {
             setUsername(data.username);
             setEmail(data.email);
-            setPassword(data.password);
             console.log(data.icon);
             const imageUrlWithForwardSlashes = data.icon.replace(/\\/g, '/');
             setUserIcon(imageUrlWithForwardSlashes);
@@ -136,7 +134,7 @@ function DashboardSettings({}: Props) {
       const formData = new FormData();
       formData.append('file', uploadedIcon);
 
-      const response = await fetch(`http://localhost:8080/put_UserIcon/${userId}`, {
+      const response = await fetch(`http://localhost:8080/put_userIcon/${userId}`, {
             method: 'POST',
             credentials: 'include',
             body: formData, // Content-Type will be set automatically
@@ -171,6 +169,40 @@ function DashboardSettings({}: Props) {
   const handleUsernameChangeSubmit = async (e : any) => {
     e.preventDefault();
 
+    try
+    {
+      const response = await fetch('http://localhost:8080/post_userUpdateUsername', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: userId, 
+          username: username}),
+      });
+
+      if(!response.ok)
+      {
+        throw new Error('Request failed');
+      }
+
+      const data = await response.json();
+
+      if(data.success === 1)
+      {
+        showPopup("Username successfully changed!");
+      }
+      else if(data.success === 0)
+      {
+        showPopup("There was and error wiht username change! Try again later!");
+      }
+
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
   };
 
   const handleEmailChange = (e: string) => {
@@ -178,7 +210,49 @@ function DashboardSettings({}: Props) {
   }
 
   const handleEmailChangeSubmit = async (e: any) => {
+    e.prevendDefault();
+    
+    try
+    {
+      const response = await fetch('http://localhost:8080/post_userUpdateEmail', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: userId, 
+          email: email}),
+      });
 
+      if(!response.ok)
+      {
+        throw new Error('Request failed');
+      }
+
+      const data = await response.json();
+
+      if(data.success === 1)
+      {
+        showPopup("Email successfully changed!");
+      }
+      else if(data.success === 0)
+      {
+        if(data.inUse === 1)
+        {
+          showPopup("Email alredy in use!");
+        }
+        else
+        {
+          showPopup("There was and error wiht email change! Try again later!");
+        }
+      }
+
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
   }
 
   const handleOldPasswordChange = (e: string) => {
@@ -194,7 +268,49 @@ function DashboardSettings({}: Props) {
   }
 
   const handlePasswordChangeSubmit = async (e: any) => {
+    e.preventDefault();
+    
+    if(newPassword === newConfirmPassword)
+    {
+      try
+      {
+        const response = await fetch('http://localhost:8080/post_userUpdatePassword', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: userId, 
+            oldPassword: oldPassword,
+            newPassword: newPassword}),
+        });
 
+        if(!response.ok)
+        {
+          throw new Error('Request failed');
+        }
+
+        const data = await response.json();
+
+        if(data.success === 1)
+        {
+          showPopup("Password successfully changed!");
+        }
+        else if(data.success === 0)
+        {
+          showPopup("There was and error wiht password change! Try again later!");
+        }
+      }
+      catch(error)
+      {
+        console.error(error);
+      }
+    }
+    else
+    {
+      showPopup("Your new password and confirm passowrd must match!");
+    }
   }
 
   const handleDeletePasswordChange = (e: string) => {
@@ -202,8 +318,42 @@ function DashboardSettings({}: Props) {
   }
 
   const handleDeleteAccountSubmit = async (e: any) => {
+    e.preventDefault();
 
-  }
+    try
+    {
+      const response = await fetch('http://localhost:8080/post_userDelete', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: userId, 
+          password: deletePassword}),
+      });
+
+      if(!response.ok)
+      {
+        throw new Error('Request failed');
+      }
+
+      const data = await response.json();
+
+      if(data.success === 1)
+      {
+        showPopup("Account successfully deleted!");
+      }
+      else if(data.success === 0)
+      {
+        showPopup("There was and error wiht account deletion! Try again later!");
+      }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+  } 
 
   return (
     <div className='dashboard-settings-container'>

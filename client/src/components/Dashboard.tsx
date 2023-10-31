@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 
 import '../style/Dashboard.css';
 
@@ -6,33 +6,32 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import DashboardNavbar from './DashboardNavbar';
 import DashboardContent from './DashboardContent';
+import { useLocation } from 'react-router-dom';
 
 type Props = {
-  page?: string,
+
 }
 
-function Dashboard({ page }: Props) {
-  const [selectedContent, setSelectedContent] = useState<string>(page ? page : "");
-
-  console.log(page);
+function Dashboard({ }: Props) {
+  const location = useLocation();    
+  const [selectedContent, setSelectedContent] = useState<string>(location.state.page);
+  const page = location.state.page;
+  
+  useEffect(() => {
+    setSelectedContent(page)
+  }, [page])
+  
 
   const handleDashboardContentChange = (content: string) => {
       setSelectedContent(content);
   }
 
-  useEffect(() => {
-    if(page != null) 
-    setSelectedContent(page);
-    else
-    setSelectedContent('orders');
-  }, [page])  
-
   return (
     <div>
       <Navbar/>
       <div className='dashboard-container'>
-        <DashboardNavbar onContentChange={handleDashboardContentChange} page={page} />
-        <DashboardContent selectedContent={selectedContent} />
+        <DashboardNavbar onContentChange={handleDashboardContentChange} page={selectedContent} />
+        <DashboardContent selectedContent={selectedContent} setSelectedContent={setSelectedContent}/>
       </div>
       <Footer/>
     </div>

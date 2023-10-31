@@ -1,5 +1,5 @@
 import NavBtn from './NavBtn';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState} from 'react';
 
 import '../style/NavBarButtons.css';
@@ -40,7 +40,7 @@ function NavBarButtons() {
 
               if(data.success === 1)
               {
-                navigate('/dashboard');
+                navigate('/dashboard', { state: { page: 'orders'}});
               }
               else if(data.success === 0)
               {
@@ -56,8 +56,19 @@ function NavBarButtons() {
 
     }
 
-    const setDashboardContent = (content: string) => {
-      localStorage.setItem('dashboard-content', content);
+    const handleClick = (content: string) => {
+      if(content === 'cart')
+      {
+        navigate('/dashboard', { state: { page: 'cart'}});
+      }
+      else if(content === 'wishlist')
+      {
+        navigate('/dashboard', { state: { page: 'wishlist'}});
+      }
+      else
+      {
+        navigate('/dashboard');
+      }
     }
 
     useEffect(() => {
@@ -84,16 +95,18 @@ function NavBarButtons() {
       
     }, []);
 
+
+    //navigate('/search-result', { state: { productIdList: productIdList}});
     return (
     <div className='NavBarButtons'>
-        <Link to='/Cart' className='koszyk' onClick={() => setDashboardContent('cart')}>
+        <div className='koszyk' onClick={() => handleClick('cart')}>
             { cartCount && <NotifcationCount count={cartCount}/>}
             <NavBtn icon={cart_img} heading={H_cart}/>
-        </Link>
-        <Link to='/Wishlist' className='lista' onClick={() => setDashboardContent('wishlist')}>
+        </div>
+        <div className='lista' onClick={() => handleClick('wishlist')}>
             { wishlistCount && <NotifcationCount count={wishlistCount}/>}
             <NavBtn icon={list_img} heading={H_list} />
-        </Link>
+        </div>
         <div onClick={handleAccount} className='konto'>
             <NavBtn icon={account_img} heading={H_account} />
         </div>

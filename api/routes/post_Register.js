@@ -25,9 +25,9 @@ router.post('/', (req, res) => {
     const password = req.body.password;
     const rememberMe = req.body.rememberMe;
 
-    const query = `SELECT mail from users WHERE mail = "${email}"`;
+    const query = `SELECT mail from users WHERE mail = ?`;
     
-    con.query(query, function(err, result) {
+    con.query(query, [email], function(err, result) {
         if(err)
         {
             console.error(err);
@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
         {
             if(result.length === 0)
             {
-                const icon = "http://localhost:8080/images/users/default_avatar.png";
+                const icon = "http://localhost:8080/public/default/default_avatar.png";
                 const insert = `INSERT INTO users(mail, username, password, icon) VALUES("${email}", "${username}", "${password}", "${icon}")`;
 
                 con.query(insert, function(err, result) {
@@ -57,18 +57,18 @@ router.post('/', (req, res) => {
                         res.cookie('authToken', authToken, {httpOnly: true, maxAge: expiresIn});
                         res.cookie('refreshToken', refreshToken, {httpOnly: true, maxAge: ms('90d')});
 
-                        res.send({
+                        res.status(200).send({
                             success: 1,
-                            info: 'user succesfully added',
+                            info: 'User succesfully added',
                         })
                     }
                 })
             }
             else 
             {   
-                res.send({
+                res.status(200).send({
                     success: 0,
-                    info: 'email already in use'
+                    info: 'Email already in use!'
                 })
             }
         }
