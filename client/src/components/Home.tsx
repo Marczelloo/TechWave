@@ -1,8 +1,8 @@
-import Navbar from './Navbar';
-import HotDeals from './HotDeals';
-import News from './News';
+import Navbar from './Navbar/Navbar';
+import HotDeals from './Hotdeals Recommended/HotDeals';
+import News from './News/News';
 import Footer from './Footer';
-import Recommended from './Recommended';
+import Recommended from './Hotdeals Recommended/Recommended';
 
 function Home() {
   return (

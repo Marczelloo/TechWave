@@ -1,4 +1,4 @@
-import Navbar from './Navbar';
+import Navbar from './Navbar/Navbar';
 import '../style/UnderConstruction.css';
 
 function UnderConstruction() {
