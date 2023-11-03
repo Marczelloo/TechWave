@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const con = require('../../db.js');
 
-router.update('/', (req, res) => {
+router.post('/', (req, res) => {
     const userId = req.body.id;
     const newUsername = req.body.newUsername;
     const query = "UPDATE users SET username = ? WHERE id = ?";

@@ -98,7 +98,6 @@
     left: 0;
 
     background-color: var(--subtleBG-white);
-    border: 2px solid var(--action-aqua);
     border-radius: 1rem;
 
     display: flex;

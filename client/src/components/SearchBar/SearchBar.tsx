@@ -131,6 +131,7 @@ function SearchBar() {
             {
               quickSearchItems.map((searchItem: quickSearchItemInterface) => {
                 return <QuickSearchItem 
+                  key={'quick-search-item-' + searchItem.id}
                   id={searchItem.id}
                   name={searchItem.name}
                   price={searchItem.price}

@@ -8,11 +8,11 @@ import DashboardNavbar from './DashboardNavbar';
 import DashboardContent from './DashboardContent';
 import { useLocation } from 'react-router-dom';
 
-type Props = {
+//TODO: - add orders page
+// - add product order, pay page and functionality
+// - add pages to search page and filter functionality
 
-}
-
-function Dashboard({ }: Props) {
+function Dashboard() {
   const location = useLocation();    
   const page = location.state?.page ?? 'orders';
   const [selectedContent, setSelectedContent] = useState<string>(page);

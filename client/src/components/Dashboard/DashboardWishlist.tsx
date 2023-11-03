@@ -170,7 +170,7 @@ function DashboardWishlist({}: Props) {
             <div className='wishlist-order-container'>
               {
                 wishlist.map((elem) => (
-                  <CartOrderProduct name={elem.name} quantity={elem.quantity} price={elem.price} />
+                  <CartOrderProduct key={'Cart-order-product ' + elem.name + ' ' + elem.id} name={elem.name} quantity={elem.quantity} price={elem.price} />
                 ))}
                 <h4> Total price: { sumPrice} $</h4>
                 <div className='wishlist-add-cart-button-container'>

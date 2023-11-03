@@ -1,5 +1,6 @@
 import "../../style/Dashboard/DashboardLogout.css";
 import { usePopup } from "../Popup/PopupProvider";
+import { useEffect } from 'react';
 
 type Props = {
   setSelectedContent: (conent: string) => void,
@@ -7,6 +8,14 @@ type Props = {
 
 function DashboardLogout({ setSelectedContent}: Props) {
   const { showPopup } = usePopup();
+
+  useEffect(() => {
+    document.body.style.overflowY = 'hidden';
+    
+    return () => {
+      document.body.style.overflowY = 'unset';
+    }
+  })
 
   const logout = async (e : any) => {
     e.preventDefault();
@@ -41,6 +50,7 @@ function DashboardLogout({ setSelectedContent}: Props) {
 
   const backToOrders = () => {
     setSelectedContent('orders');
+    document.body.style.overflowY = 'unset';
   }
   
   return (

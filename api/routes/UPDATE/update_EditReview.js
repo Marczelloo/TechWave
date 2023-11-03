@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const con = require('../../db');
 
-
-router.update('/', (req, res) => {
+router.post('/', (req, res) => {
     const id = req.body.id;
     const review_rate = req.body.review_rate;
     const review_text = req.body.review_text;

@@ -33,6 +33,19 @@ function DashboardReviewsCard({ id, id_product, review_rate, review_date, review
 
     const { showPopup } = usePopup();
 
+    useEffect(() => { 
+      
+      if(showDeleteConfirmation)
+      {
+        document.body.style.overflowY = 'hidden';
+      }
+      else
+      {
+        document.body.style.overflowY = 'unset';
+      }
+
+    }, [showDeleteConfirmation])
+
     
     useEffect(() => {
         const fetchData = async () => {

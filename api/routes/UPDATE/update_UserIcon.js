@@ -2,7 +2,7 @@ const  experss = require('express');
 const router = experss.Router();
 const con = require('../../db.js');
 
-router.update('/', (req, res) => {
+router.post('/', (req, res) => {
     const userId = req.body.id;
     const icon = req.body.icon;
     const query = "UPDATE icon FROM users WHERE id = ?";

@@ -40,7 +40,7 @@
 
     padding: .5rem;
     
-    border: 2px solid var(--action-aqua);
+    border: 2px solid var(--action-red);
     border-radius: 2rem;
 
     font-size: 1.25rem;
@@ -50,13 +50,13 @@
 }
 
 .dashboard-logout-buttons > button:last-child {
-    border-color: var(--action-red);
+    border-color: var(--action-aqua);
 }
 
 .dashboard-logout-buttons > button:hover {
-    background-color: var(--action-aqua);
+    background-color: var(--action-red);
 }
 
 .dashboard-logout-buttons > button:last-child:hover {
-    background-color: var(--action-red);
+    background-color: var(--action-aqua);
 }

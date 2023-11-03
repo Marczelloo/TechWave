@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const con = require('../../db.js');
 
-router.update('/', (req, res) => {
+router.post('/', (req, res) => {
     const userId = req.body.id;
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
