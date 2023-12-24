@@ -10,19 +10,20 @@ import Logout from './DashboardLogout';
 type Props = {
     selectedContent: string,
     setSelectedContent: (conent: string) => void,
+    setReloadNavbar: (reload: boolean) => void, // Add this line
 }
 
-function DashboardContent({ selectedContent, setSelectedContent }: Props) {
+function DashboardContent({ selectedContent, setSelectedContent, setReloadNavbar }: Props) {
     const displayContent = () => {
         switch(selectedContent){
             case 'orders':
                 return <Orders/>
             break;
             case 'cart':
-                return <Cart/>
+                return <Cart setReloadNavbar={setReloadNavbar}/>
             break;
             case 'wishlist':
-                return <Wishlist/>
+                return <Wishlist setReloadNavbar={setReloadNavbar}/>
             break;
             case 'reviews':
                 return <Reviews/>

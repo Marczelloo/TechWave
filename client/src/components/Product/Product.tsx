@@ -13,6 +13,7 @@ import star from '../../assets/star.png';
 import Review from "./Review";
 
 import { usePopup } from "../Popup/PopupProvider";
+import { set } from "lodash";
 // #TODO:
 // - Seperate this element into smaller ones
 // - Przepisac na aplikacje Pheonix framework, rust albo elxisir
@@ -75,6 +76,8 @@ function Product({}: Props) {
   const [quantity, setQuantity] = useState<number>(1);
 
   const { showPopup } = usePopup();
+
+  const [reloadNavbar, setReloadNavbar] = useState<boolean>(false);
   
   useEffect(() => {
     updateVis();
@@ -245,6 +248,8 @@ function Product({}: Props) {
   
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     showPopup('Product successfully added to cart')
+
+    setReloadNavbar(true);
   }
 
   const handleAddToList = () => {    
@@ -275,6 +280,8 @@ function Product({}: Props) {
 
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
     showPopup('Product successfully added to wishlist');
+
+    setReloadNavbar(true);
   }
 
   const handleSubmit = async (event: any) => {
@@ -344,7 +351,7 @@ function Product({}: Props) {
 
   return (
     <div className="wrapper">
-        <Navbar/>
+        <Navbar reloadCount={reloadNavbar}/>
         <div className='product-wrapper'>
           <h1 className='product-title'> {product?.name} </h1>
           <div className='product-section'> 

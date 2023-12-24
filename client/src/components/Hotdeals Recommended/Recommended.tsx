@@ -2,6 +2,10 @@ import '../../style/Hotdeals Recommended/Recommended.css';
 import ProductCard from '../Product/ProductCard';
 import { useState, useEffect } from 'react';
 
+
+type Props = {
+  setReloadNavbar: (reload: boolean) => void, // Add this line
+}
 interface Recommended {
   id: number,
   name: string,
@@ -9,7 +13,7 @@ interface Recommended {
   images: Array<string>,
 }
 
-function Recommended() {
+function Recommended({setReloadNavbar}: Props) {
   const [recommended, setRecommended] = useState<Recommended[] | null>(null);
 
   useEffect(() => {
@@ -44,6 +48,7 @@ function Recommended() {
               name={recommendation.name}
               price={recommendation.price}
               image={recommendation.images[0]}
+              setReloadNavbar={setReloadNavbar}
             />
           ))
         ) : (

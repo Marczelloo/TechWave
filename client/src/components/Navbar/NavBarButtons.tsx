@@ -10,7 +10,11 @@ import list_img from '../../assets/list.png';
 
 import NotifcationCount from './NavBarNotiCount';
 
-function NavBarButtons() {
+type Props = {
+  reloadCount?: boolean,
+}
+
+function NavBarButtons({reloadCount}: Props) {
     const H_account = 'Account';
     const H_cart = 'Cart';
     const H_list = 'Wishlist';
@@ -76,7 +80,11 @@ function NavBarButtons() {
         const cart = localStorage.getItem('cart');
         const cartParsed = cart ? JSON.parse(cart) : [];
 
-        if(cartParsed.length === 0 || cartParsed === undefined || cartParsed === null) return;
+        if(cartParsed.length === 0 || cartParsed === undefined || cartParsed === null) 
+        {
+          setCartCount(null);
+          return;
+        }
 
         setCartCount(cartParsed.length);
       }
@@ -85,16 +93,18 @@ function NavBarButtons() {
         const wishlist = localStorage.getItem('wishlist');
         const wishlistParsed = wishlist ? JSON.parse(wishlist) : [];
 
-        if(wishlistParsed.length === 0 || wishlistParsed === undefined || wishlistParsed === null) return;
+        if(wishlistParsed.length === 0 || wishlistParsed === undefined || wishlistParsed === null)
+        {
+          setWishlistCount(null);
+          return;
+        }
 
         setWishlistCount(wishlistParsed.length);
       }
       
       getCartCount();
       getWishlistCount();
-      
-    }, []);
-
+    }, [reloadCount]);
 
     //navigate('/search-result', { state: { productIdList: productIdList}});
     return (

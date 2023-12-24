@@ -5,11 +5,14 @@ import '../../style/Dashboard/DashboardWishlist.css';
 
 import { useState, useEffect } from 'react';
 
+import { usePopup } from '../Popup/PopupProvider';
 
 
-type Props = {}
+type Props = {
+  setReloadNavbar: (reload: boolean) => void,
+}
 
-interface Wishlist {
+type Wishlist = {
   id: number,
   name: string,
   price: number,
@@ -17,7 +20,7 @@ interface Wishlist {
   quantity: number
 }
 
-interface idWishlist {
+type idWishlist = {
   id_product: number,
   quantity: number,
   map: any,
@@ -25,7 +28,9 @@ interface idWishlist {
   length: any,
 }
 
-function DashboardWishlist({}: Props) {
+function DashboardWishlist({setReloadNavbar}: Props) {
+  const { showPopup } = usePopup();
+
   const [wishlistId, setWishlistId] = useState<idWishlist>();
   const [wishlist, setWishlist] = useState<Wishlist[] | undefined>(undefined);
   const [sumPrice, setSumPrice] = useState<number>(0);
@@ -120,15 +125,51 @@ function DashboardWishlist({}: Props) {
     setWishlist((prev) =>
       prev?.map((product) => product.id === prodId ? {...product, quantity: newQuantity} : product)
     )
+
+    setWishlistId((prev) =>
+      prev?.map((product: any) => product.id_product === prodId ? {...product, quantity: newQuantity} : product)
+    )
   }
 
   const handleAddToCart = (prodId: number) => {
-    const addToCart = () => {
-      console.log('Add to cart, prodId', prodId);
-    }
+    const addToCart = (id: number, quantity: number) => {
+      const existingCartString = localStorage.getItem('cart');
+      const existingCart = existingCartString ? JSON.parse(existingCartString) : [];
+      
+      let updatedCart = [];
+
+      if (existingCart.length <= 0) 
+        {
+          updatedCart = [{ id_product: id, quantity: quantity }];
+        } 
+        else 
+        {
+          const existingProduct = existingCart.filter((product: { id_product: number; }) => product.id_product === id);
+          const existingProductIndex = existingCart.findIndex((product: { id_product: number; }) => product.id_product === id);
+      
+          console.log('Existing product', existingProduct);
+      
+          if (existingProduct.length > 0 && existingProduct[0].id_product === id) 
+          {
+            console.log('Product already exists in the cart.');
+      
+            updatedCart = [...existingCart];
+            updatedCart[existingProductIndex].quantity = Number(quantity);
+          } 
+          else 
+          {
+            updatedCart = [...existingCart, { id_product: id, quantity: quantity }];
+          }
+        }
+      
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        showPopup('Product successfully added to cart!');
+
+        setReloadNavbar(true)
+      }
 
     wishlist?.map((product) => {
-      product.id === prodId && addToCart();
+      product.id === prodId && addToCart(product.id, product.quantity);
     })
   }
 
@@ -136,6 +177,19 @@ function DashboardWishlist({}: Props) {
     setWishlist((prev) => prev?.filter((product) => product.id !== prodId));
     setWishlistId((prev) => prev?.filter((product: { id_product: number}) => product.id_product !== prodId));
     localStorage.setItem('wishlist', JSON.stringify(wishlistId?.filter((product: { id_product: number}) => product.id_product !== prodId)));
+
+    showPopup('Products successfully removed from wishlist!');
+    setReloadNavbar(true); 
+  }
+  
+  const handleAddAllCart = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    localStorage.setItem('cart', JSON.stringify(wishlistId));
+
+    showPopup('Products successfully added to cart!');
+    setReloadNavbar(true);
   }
 
   return (
@@ -174,7 +228,7 @@ function DashboardWishlist({}: Props) {
                 ))}
                 <h4> Total price: { sumPrice} $</h4>
                 <div className='wishlist-add-cart-button-container'>
-                  <button> Add all products to cart! </button>
+                  <button onClick={(e) => handleAddAllCart(e)}> Add all products to cart! </button>
                 </div>
             </div>
           )

@@ -12,45 +12,48 @@ type Props = {
     image: string,
     sale?: boolean,
     new_price?: number,
+    setReloadNavbar: (reload: boolean) => void,
 }
 
-function ProductCard({id, name, image, price, sale, new_price}: Props) {
+function ProductCard({id, name, image, price, sale, new_price, setReloadNavbar}: Props) {
     const { showPopup } = usePopup();
 
     const quantity = 1;
 
 
     const handleAddToWishlist = (event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
-    
-    const existingWishlistString = localStorage.getItem('wishlist');
-    const existingWishlist = existingWishlistString ? JSON.parse(existingWishlistString) : [];
+      event.preventDefault();
+      event.stopPropagation();
+      
+      const existingWishlistString = localStorage.getItem('wishlist');
+      const existingWishlist = existingWishlistString ? JSON.parse(existingWishlistString) : [];
 
-    let updatedWishlist = [];
+      let updatedWishlist = [];
 
-    if(existingWishlist.length <= 0) 
-    {
-      updatedWishlist = [{ id_product: id, quantity: quantity}];
-    }
-    else
-    {
-      const existingProduct = existingWishlist.filter((product: { id_product: number}) => product.id_product === id);
-      const existingProductIndex = existingWishlist.findIndex((product: { id_product: number; }) => product.id_product === id);
-
-      if(existingProduct.length > 0 && existingProduct[0].id_product === id)
+      if(existingWishlist.length <= 0) 
       {
-        updatedWishlist = [...existingWishlist];
-        updatedWishlist[existingProductIndex].quantity += quantity;
-      } 
+        updatedWishlist = [{ id_product: id, quantity: quantity}];
+      }
       else
       {
-        updatedWishlist = [...existingWishlist, { id_product: id, quantity: quantity}];
-      }
-    }
+        const existingProduct = existingWishlist.filter((product: { id_product: number}) => product.id_product === id);
+        const existingProductIndex = existingWishlist.findIndex((product: { id_product: number; }) => product.id_product === id);
 
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-    showPopup('Product successfully added to wishlist!');
+        if(existingProduct.length > 0 && existingProduct[0].id_product === id)
+        {
+          updatedWishlist = [...existingWishlist];
+          updatedWishlist[existingProductIndex].quantity += quantity;
+        } 
+        else
+        {
+          updatedWishlist = [...existingWishlist, { id_product: id, quantity: quantity}];
+        }
+      }
+
+      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      showPopup('Product successfully added to wishlist!');
+
+      setReloadNavbar(true);
     }
 
     const handleAddToCart = (event: any) => {
@@ -88,8 +91,9 @@ function ProductCard({id, name, image, price, sale, new_price}: Props) {
       
         localStorage.setItem('cart', JSON.stringify(updatedCart));
         showPopup('Product successfully added to cart!');
+
+        setReloadNavbar(true);
       }
-        //with context set id of product then in product page it will get tha data from it
     return (
     <Link to={{ pathname: './Product', search: `product_id=${id}`}} className='ProductCard'>
         <h1> {name} </h1>

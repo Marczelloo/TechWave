@@ -1,22 +1,60 @@
 import '../../style/Dashboard/DashboardOrdersCard.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {
-
+orderStatus: string,
+orderId: number,
+orderPrice: number,
+orderDate: Date,
+productId: number[],
 }
 
-interface Products {
-
+type Products = {
+  id: number,
+  image: string,
 }
 
-function DashboardOrdersCard({}: Props) {
-    const [orderStatus, setOrderSatus] = useState<string>();
-    const [orderId, setOrderId] = useState<number>();
-    const [orderPrice, setOrderPrice] = useState<number>();
-    const [orderDate, setOrderDate] = useState<Date>();
+function DashboardOrdersCard({ orderId, orderPrice, orderDate, orderStatus, productId }: Props) {
+  const [product, setProduct] = useState<Products[]>();
 
-    const [products, setProducts] = useState<Products>();
+  useEffect(() => {
+    try {
+      const fetchProducts = productId?.map(async (idCart: number) => {
+        const response = await fetch(`http://localhost:8080/get_Product/${idCart}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        const data = await response.json();
+
+        const fetchedProduct: Products = {
+          id: data.id,
+          image: data.images[0],
+        }
+
+        return fetchedProduct;      
+      });
+
+      Promise.all(fetchProducts)
+      .then((data) => {
+        setProduct(data);
+      })
+
+    }
+    catch(error)
+    {
+      console.log(error);
+    }
+
+  }, [])
+
 
   return (
     <div className='orders-card-contaiener'>
@@ -27,7 +65,15 @@ function DashboardOrdersCard({}: Props) {
             <p> {orderPrice} </p>
         </div>
         <div className='orders-card-products'>
-
+          {
+            product?.map((product) => {
+              return (
+                <div className='orders-card-product'>
+                  <img src={product.image} alt='product' />
+                </div>
+              )
+            })
+          }
         </div>
     </div>
   )

@@ -4,6 +4,9 @@ import Navbar from "../Navbar/Navbar";
 import md5 from 'md5';
 import '../../style/Login Register/Login.css';
 
+import show_password_img from '../../assets/show.png';
+import hide_password_img from '../../assets/hide.png';
+
 
 type Props = {}
 
@@ -13,6 +16,7 @@ function Login({}: Props) {
     const [rememberMe, setRememberMe] = useState<boolean>(false);
     const [loginInfoError, setLoginInfoError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const handleLoginChange = (event: any) => {
         setLogin(event.target.value);
@@ -57,6 +61,12 @@ function Login({}: Props) {
         }
     }
 
+    const changePasswordVisibility = (e: any) => {
+        e.preventDefault();
+    
+        setShowPassword(!showPassword);
+      };
+
   return (
     <div className='wrapper'>
         <Navbar/>
@@ -70,11 +80,20 @@ function Login({}: Props) {
                 value={login}
                 onChange={handleLoginChange}/>
                 <label> Password </label>
-                <input
-                type='password' 
+                <div className='login-password-input'>
+                    <input
+                    type={showPassword ? 'text' : 'password'} 
+                    name='password'
+                    value={password}
+                    onChange={handlePasswordChange}/>
+                    <button className='dashboard-password-button' onClick={(e) => changePasswordVisibility(e)}> { showPassword ? <img src={show_password_img} alt="show password img"/> : <img src={hide_password_img} alt="hide password img" />}</button>
+                </div>
+                {/* <input
+                type={showPassword ? 'text' : 'password'} 
                 name='password'
                 value={password}
                 onChange={handlePasswordChange}/>
+                <button className='dashboard-password-button' onClick={(e) => changePasswordVisibility(e)}> { showPassword ? <img src={show_password_img} alt="show password img"/> : <img src={hide_password_img} alt="hide password img" />}</button> */}
                 {
                     loginInfoError && <p className='login-info'> {loginInfoError} </p> 
                 }

@@ -7,7 +7,11 @@ import '../../style/Navbar/NavBar.css'
 import { Link } from "react-router-dom";
 import { useEffect } from 'react';
 
-const Navbar = () => {
+type Props = {
+  reloadCount?: boolean,
+}
+
+const Navbar = ({reloadCount} : Props) => {
   
   useEffect(() => {
     window.scroll({
@@ -28,7 +32,7 @@ const Navbar = () => {
             <SearchBar/>
         </div>
         <div className="nav-buttons">
-            <NavBarButtons/>
+            <NavBarButtons reloadCount={reloadCount} />
         </div>
     </nav>
   )

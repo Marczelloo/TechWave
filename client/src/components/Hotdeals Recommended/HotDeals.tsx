@@ -2,6 +2,9 @@ import '../../style/Hotdeals Recommended/HotDeals.css';
 import ProductCard from '../Product/ProductCard';
 import { useState, useEffect } from 'react';
 
+type Props = {
+  setReloadNavbar: (reload: boolean) => void,
+}
 interface HotDeals {
   id: number,
   name: string, 
@@ -11,7 +14,7 @@ interface HotDeals {
   images: string[];
 }
 
-function HotDeals() {
+function HotDeals({ setReloadNavbar }: Props) {
   const [timeRemaining, setTimeRemaining] = useState<String>('');
   const [hotdeals, setHotdeals] = useState<HotDeals[] | null>(null);
 
@@ -81,6 +84,7 @@ function HotDeals() {
               new_price={hotdeal.sale_price}
               image={hotdeal.images[0]}
               sale={true}
+              setReloadNavbar={setReloadNavbar}
             />
           ))
         ) : (
