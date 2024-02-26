@@ -17,12 +17,12 @@ type Orders = {
 
 function DashboardOrders({}: Props) {
     const [userId, setUserId] = useState<number>(0);
-    const [orders, setOrders] = useState<Orders[] | null>(null);
+    const [orders, setOrders] = useState<Orders[] | null>([{status: 'Delivered', id: 1, price: 100, date: new Date(), products: [1, 1, 1]}]);
     
-
     useEffect(() => {
         fetchOrders();
     }, [orders])
+
     const fetchOrders = async () => {
         try {
           const response = await fetch('http://localhost:8080/protected',{
@@ -45,7 +45,7 @@ function DashboardOrders({}: Props) {
         }
 
         try {
-          const response = await fetch(`http://localhost:8080/get_Orders/${userId}`, {
+          const response = await fetch(`http://localhost:8080/get_orders/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -62,9 +62,9 @@ function DashboardOrders({}: Props) {
             const fetchedOrder: Orders = {
                 status: order.status,
                 id: order.id,
-                price: order.price,
+                price: order.total_price,
                 date: order.date,
-                products: order.products,
+                products: JSON.parse(order.products_id.products)
             }
 
             return fetchedOrder;

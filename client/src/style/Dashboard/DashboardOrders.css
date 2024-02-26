@@ -1,8 +1,9 @@
 .dashboard-orders-container {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1rem;
-
 }
 
 .dashboard-orders-container > h2 {
@@ -12,4 +13,12 @@
     padding: .5rem;
 
     padding-bottom: .5rem;
+}
+
+.orders-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }

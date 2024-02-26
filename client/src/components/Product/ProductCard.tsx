@@ -12,7 +12,7 @@ type Props = {
     image: string,
     sale?: boolean,
     new_price?: number,
-    setReloadNavbar: (reload: boolean) => void,
+    setReloadNavbar?: (reload: boolean) => void,
 }
 
 function ProductCard({id, name, image, price, sale, new_price, setReloadNavbar}: Props) {
@@ -53,7 +53,10 @@ function ProductCard({id, name, image, price, sale, new_price, setReloadNavbar}:
       localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
       showPopup('Product successfully added to wishlist!');
 
-      setReloadNavbar(true);
+      if(setReloadNavbar)
+      {
+        setReloadNavbar(true);
+      }
     }
 
     const handleAddToCart = (event: any) => {
@@ -92,7 +95,10 @@ function ProductCard({id, name, image, price, sale, new_price, setReloadNavbar}:
         localStorage.setItem('cart', JSON.stringify(updatedCart));
         showPopup('Product successfully added to cart!');
 
-        setReloadNavbar(true);
+        if(setReloadNavbar)
+        {
+          setReloadNavbar(true);
+        }
       }
     return (
     <Link to={{ pathname: './Product', search: `product_id=${id}`}} className='ProductCard'>

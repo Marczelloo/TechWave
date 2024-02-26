@@ -1,6 +1,7 @@
 import '../../style/Dashboard/DashboardOrdersCard.css';
 
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
 orderStatus: string,
@@ -18,10 +19,12 @@ type Products = {
 function DashboardOrdersCard({ orderId, orderPrice, orderDate, orderStatus, productId }: Props) {
   const [product, setProduct] = useState<Products[]>();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     try {
       const fetchProducts = productId?.map(async (idCart: number) => {
-        const response = await fetch(`http://localhost:8080/get_Product/${idCart}`, {
+        const response = await fetch(`http://localhost:8080/products/${idCart}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -56,21 +59,25 @@ function DashboardOrdersCard({ orderId, orderPrice, orderDate, orderStatus, prod
   }, [])
 
 
+  const handleOrderClick = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    navigate(`/dashboard/orders/${orderId}`, { state: { orderId: orderId } });
+  }
   return (
-    <div className='orders-card-contaiener'>
+    <div className='orders-card-container' onClick={(e) => handleOrderClick(e)}>
         <div className='orders-card-info'>
             <p> {orderStatus} </p>
             <p> {orderDate?.toDateString()} </p>
-            <p> {orderId} </p>
-            <p> {orderPrice} </p>
+            <p> nr {orderId} </p>
+            <p> {orderPrice} $</p>
         </div>
         <div className='orders-card-products'>
           {
             product?.map((product) => {
               return (
-                <div className='orders-card-product'>
-                  <img src={product.image} alt='product' />
-                </div>
+                <img src={product.image} alt='product' />
               )
             })
           }

@@ -13,7 +13,7 @@ import star from '../../assets/star.png';
 import Review from "./Review";
 
 import { usePopup } from "../Popup/PopupProvider";
-import { set } from "lodash";
+//import { set } from "lodash";
 // #TODO:
 // - Seperate this element into smaller ones
 // - Przepisac na aplikacje Pheonix framework, rust albo elxisir

@@ -1,3 +1,72 @@
-.orders.card-info {
-    
+.orders-card-container {
+    width: 90%;
+    height: auto;
+
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+
+    background-color: var(--secondary-gray);
+    border-radius: 1rem;
+
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.orders-card-info {
+    width: 30%;
+    height: auto;
+
+    padding: 1rem;
+    padding-left: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgba(0, 0, 0, 0.25);
+
+    color: var(--subtleBG-white);
+    text-align: left;
+    font-weight: 400;
+}
+
+.orders-card-info > p {
+    margin-bottom: .75rem;
+}
+
+.orders-card-info p:first-child {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+.orders-card-info p:last-child {
+    margin: 0;
+    margin-top: .75rem;
+    font-size: 1.25rem;
+}
+
+.orders-card-info p:nth-child(2),
+.orders-card-info p:nth-child(3) {
+    font-weight: 200;
+    margin-bottom: 0;
+}
+
+.orders-card-products {
+    width: 70%;
+    height: auto;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    overflow-x: auto;
+}
+
+.orders-card-products > img {
+    height: auto;
+    width: 30%;
+    aspect-ratio: 4/3;
+    object-fit: contain;
 }

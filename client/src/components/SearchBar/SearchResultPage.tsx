@@ -140,6 +140,7 @@ const SearchResultPage = () => {
                             name={product.name}
                             price={product.price}
                             image={product.image}
+                            
                         />
                     })
                 }

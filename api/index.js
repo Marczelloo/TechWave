@@ -37,7 +37,7 @@ const get_ProductByName = require('./routes/GET/get_ProductByName.js');
 const get_SearchProducts = require('./routes/GET/get_SearchProducts.js');
 const get_ProductsByIds = require('./routes/GET/get_ProductsByIds.js');
 const get_Logout = require('./routes/GET/get_Logout.js');
-
+const get_Orders = require('./routes/GET/get_Orders.js');
 
 app.use('/products', get_Product);
 app.use('/recommended', get_Recommended);
@@ -63,6 +63,7 @@ app.use('/get_productByName', get_ProductByName);
 app.use('/get_searchProducts', get_SearchProducts);
 app.use('/get_productsByIds', get_ProductsByIds);
 app.use('/get_logout', get_Logout);
+app.use('/get_orders', get_Orders);
 
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
